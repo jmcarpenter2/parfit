@@ -10,41 +10,28 @@ A package for parallelizing the fit and flexibly scoring of sklearn machine lear
 
 ## Docs
 ### def **bestFit**(model, paramGrid, X_train, y_train, X_val, y_val, metric=roc_auc_score, bestScore='max', predictType=None, showPlot=True, scoreLabel=None, vrange=None, n_jobs=-1, verbose=10):
-    
-    Parallelizes choosing the best fitting model on the validation set, doing a grid search over the parameter space. Models are scored using specified metric, and user must determine whether the best score is the 'max' or 'min' of scores.
-        
+    """
+    Parallelizes choosing the best fitting model on the validation set, doing a grid search over the parameter space.
+        Models are scored using specified metric, and user must determine whether the best score is the 'max' or 'min' of scores.
     :param model: The function name of the model you wish to pass,
-        e.g. LogisticRegression [NOTE: do not instantiate with ()]4
-        
+        e.g. LogisticRegression [NOTE: do not instantiate with ()]
     :param paramGrid: The ParameterGrid object created from sklearn.model_selection
-    
     :param X_train: The independent variable data used to fit the models
-    
     :param y_train: The dependent variable data used to fit the models
-    
     :param X_val: The independent variable data used to score the models
-    
     :param y_val: The dependent variable data used to score the models
-    
     :param metric: The metric used to score the models, e.g. imported from sklearn.metrics
-    
     :param bestScore: Is 'max' of scores list best, or 'min' or scores list best? (default is 'max')
-    
-    :param predictType: Choice between 'predict_proba' and 'predict' for scoring routine. Defaults to 'predict_proba' when possible
-
+    :param predictType: Choice between 'predict_proba' and 'predict' for scoring routine
+        Defaults to 'predict_proba' when possible
     :param showPlot: Whether or not to display the plot of the scores over the parameter grid
-
     :param scoreLabel: The specified label (dependent on scoring metric used), e.g. 'AUC'
-
     :param vrange: The visible range over which to display the scores
-
     :param n_jobs: Number of cores to use in parallelization (defaults to -1: all cores)
-
-    :param verbose: The level of verbosity of reporting updates on parallel process. Default is 10 (send an update at the completion of each job)
-    
+    :param verbose: The level of verbosity of reporting updates on parallel process
+        Default is 10 (send an update at the completion of each job)
     :return: Returns a tuple including the best scoring model, all models, and all scores
-    
-
+    """
 
 ### def **fitModels**(model, paramGrid, X, y, n_jobs=-1, verbose=10):
     """
@@ -71,7 +58,7 @@ A package for parallelizing the fit and flexibly scoring of sklearn machine lear
         myModels = fitModels(model, paramGrid, X_train, y_train)
     """
     
- def **scoreModels**(models, X, y, metric=roc_auc_score, predictType=None, n_jobs=-1, verbose=10):
+### def **scoreModels**(models, X, y, metric=roc_auc_score, predictType=None, n_jobs=-1, verbose=10):
     """
     Parallelizes scoring all models using provided metric for given models on scoring data
     :param models: The lists of fitted models you wish to score, fitted using fitModels
@@ -90,7 +77,7 @@ A package for parallelizing the fit and flexibly scoring of sklearn machine lear
         myScores = scoreModels(myModels, X_val, y_val, recall_score)
     """
     
- def **getBestModel**(models, scores, bestScore='max'):
+### def **getBestModel**(models, scores, bestScore='max'):
     """
     Returns the best model from the models list based on the scores from
     the scores list. Requires "best" to mean 'max' or 'min' of scores
@@ -100,7 +87,7 @@ A package for parallelizing the fit and flexibly scoring of sklearn machine lear
         Default: 'max'
     :return:
 
-def **plotScores**(scores, paramGrid, scoreLabel=None, vrange=None):
+### def **plotScores**(scores, paramGrid, scoreLabel=None, vrange=None):
     """
     Makes a plot representing how the scores vary over the parameter grid
         Automatically decides whether to use a simple line plot (varying over one parameter)
