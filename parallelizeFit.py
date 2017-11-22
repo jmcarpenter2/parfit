@@ -214,7 +214,9 @@ def plotScores(scores, paramGrid, scoreLabel=None, vrange=None):
 
 #------------------------ Full routine ------------------------#
 def parallelizeBestFit(model, paramGrid, X_train, y_train, X_val, y_val, metric=roc_auc_score, bestScore='max', predictType=None, showPlot=True, scoreLabel=None, vrange=None, n_jobs=-1, verbose=10):
+    print('-------------FITTING MODELS-------------')
     models = parallelizeFit(model, paramGrid, X_train, y_train, n_jobs, verbose)
+    print('-------------SCORING MODELS-------------')
     scores = parallelizeScore(models, X_val, y_val, metric, predictType, n_jobs, verbose)
     if showPlot:
         plotScores(scores, paramGrid, scoreLabel, vrange)
