@@ -119,7 +119,6 @@ def plot1DGrid(scores, paramsToPlot, scoreLabel, vrange):
     plt.plot(np.linspace(0, max(paramsToPlot[key[0]]), len(paramsToPlot[key[0]])), scores, '-or')
     plt.xlabel(key[0])
     plt.xticks(np.linspace(0, max(paramsToPlot[key[0]]), len(paramsToPlot[key[0]])), paramsToPlot[key[0]])
-    plt.title('Scoring')
     if scoreLabel is not None:
         plt.ylabel(scoreLabel)
     else:
@@ -151,7 +150,7 @@ def plot2DGrid(scores, paramsToPlot, keysToPlot, scoreLabel, vrange):
     if scoreLabel is not None:
         plt.title(scoreLabel)
     else:
-        plt.title('Scoring grid')
+        plt.title('Score')
     plt.colorbar()
     plt.box(on=False)
     plt.show()
