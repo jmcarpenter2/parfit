@@ -8,6 +8,8 @@ A package for parallelizing the fit and flexibly scoring of sklearn machine lear
 
 3. Each function is well-documented in the .py file. In Jupyter Notebooks, you can see the docs by pressing Shift+Tab(x3). Also, the documentation is listed below.
 
+4. This package is designed for use with sklearn machine learning models, but in theory will work with any model that has a .fit(X,y) function
+
 ## Docs
 ### def **bestFit**(model, paramGrid, X_train, y_train, X_val, y_val, metric=roc_auc_score, bestScore='max', predictType=None, showPlot=True, scoreLabel=None, vrange=None, n_jobs=-1, verbose=10):
     """
