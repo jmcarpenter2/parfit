@@ -1,6 +1,7 @@
 from joblib import Parallel, delayed
 from sklearn.metrics import *
 import matplotlib.pyplot as plt
+import numpy as np
 
 #------------------------ Fitting routines ------------------------#
 def fitOne(model, X, y, params):
