@@ -1,6 +1,8 @@
 # parFit
 A package for parallelizing the fit and flexibly scoring of sklearn machine learning models, with optional plotting routines.
 
+You can **pip install parfit** and then import into your code using *from parfit import parfit as pf*. Once imported, you can use pf.bestFit() or other functions freely.
+
 ## Notes
 1. You can either use **bestFit()** to automate the steps of the process, and optionally plot the scores over the parameter grid, OR you can do each step in order [*fitModels()* -> *scoreModels()* -> *plotScores()* -> *getBestModel()*]
 
