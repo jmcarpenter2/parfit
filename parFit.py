@@ -1,6 +1,7 @@
 from joblib import Parallel, delayed
 from sklearn.metrics import *
 import matplotlib.pyplot as plt
+import matplotlib.colorbar as cb
 import numpy as np
 
 #------------------------ Fitting routines ------------------------#
@@ -175,6 +176,50 @@ def plot2DGrid(scores, paramsToPlot, keysToPlot, scoreLabel, vrange):
     plt.show()
 
 
+def plot3DGrid(scores, paramsToPlot, keysToPlot, scoreLabel, vrange):
+    """
+    Plots a grid of heatmaps of scores, over the paramsToPlot
+    :param scores: A list of scores, estimated using parallelizeScore
+    :param paramsToPlot: The parameters to plot, chosen automatically by plotScores
+    :param scoreLabel: The specified score label (dependent on scoring metric used)
+    :param vrange: The visible range of the heatmap (range you wish the heatmap to be specified over)
+    """
+    vmin = np.min(scores)
+    vmax = np.max(scores)
+    scoreGrid = np.reshape(scores, (len(paramsToPlot[keysToPlot[0]]), len(paramsToPlot[keysToPlot[1]]), len(paramsToPlot[keysToPlot[2]])))
+
+    nelements = scoreGrid.shape[2]
+    nrows = np.floor(nelements ** 0.5).astype(int)
+    ncols = np.ceil(1. * nelements / nrows).astype(int)
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, sharex='all',sharey='all',figsize=(int(round(len(paramsToPlot[keysToPlot[1]])*ncols*1.33)), int(round(len(paramsToPlot[keysToPlot[0]])*nrows*1.33))))
+    i = 0
+    for ax in axes.flat:
+        if vrange is not None:
+            im = ax.imshow(scoreGrid[:,:,i], cmap='jet', vmin=vrange[0], vmax=vrange[1])
+        else:
+            im = ax.imshow(scoreGrid[:,:,i], cmap='jet', vmin=vmin, vmax=vmax)
+        ax.set_xlabel(keysToPlot[1])
+        ax.set_xticks(np.arange(len(paramsToPlot[keysToPlot[1]])))
+        ax.set_xticklabels(paramsToPlot[keysToPlot[1]])
+        ax.set_ylabel(keysToPlot[0])
+        ax.set_yticks(np.arange(len(paramsToPlot[keysToPlot[0]])))
+        ax.set_yticklabels(paramsToPlot[keysToPlot[0]])
+        ax.set_title(keysToPlot[2] + ' = ' + str(paramsToPlot[keysToPlot[2]][i]))
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+        ax.spines["bottom"].set_visible(False)
+        ax.spines["left"].set_visible(False)
+        i += 1
+    if scoreLabel is not None:
+        fig.suptitle(scoreLabel,fontsize=18)
+    else:
+        fig.suptitle('Score', fontsize=18)
+    fig.subplots_adjust(right=0.8)
+    cbar = cb.make_axes(ax,location='right', fraction = 0.03)
+    fig.colorbar(im, cax=cbar[0])
+    plt.show()
+
+
 def plotScores(scores, paramGrid, scoreLabel=None, vrange=None):
     """
     Makes a plot representing how the scores vary over the parameter grid
@@ -203,8 +248,10 @@ def plotScores(scores, paramGrid, scoreLabel=None, vrange=None):
             uniqParams.pop(k, None)
 
     numDim = len(keysToPlot)
-    if numDim > 2:
+    if numDim > 3:
         print('Too many dimensions to plot.')
+    elif numDim == 3:
+        plot3DGrid(scores, uniqParams, keysToPlot, scoreLabel, vrange)
     elif numDim == 2:
         plot2DGrid(scores, uniqParams, keysToPlot, scoreLabel, vrange)
     elif numDim == 1:
