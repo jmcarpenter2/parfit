@@ -1,5 +1,4 @@
 from joblib import Parallel, delayed
-from sklearn.metrics import *
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -105,6 +104,24 @@ def parallelizeScore(models, X, y, metric=roc_auc_score, predictType=None, n_job
                                                                       predictType) for m in models)
 
 
+def getBestModel(models, scores, bestScore='max'):
+    """
+    Returns the best model from the models list based on the scores from
+    the scores list. Requires "best" to mean 'max' or 'min' of scores
+    :param models: List of models returned by parallelizeFit
+    :param scores: List of corresponding scores returned by parallelizeScore
+    :param bestScore: Is 'max' of scores list best, or 'min' or scores list best?
+        Default: 'max'
+    :return:
+    """
+    if bestScore == 'max':
+        return models[np.argmax(scores)]
+    elif bestScore == 'min':
+        return models[np.argmin(scores)]
+    else:
+        print('Please choose "max" or "min" for bestScore parameter')
+
+
 #------------------------ Plotting routines ------------------------#
 def plot1DGrid(scores, paramsToPlot, scoreLabel, vrange):
     """
@@ -137,16 +154,16 @@ def plot2DGrid(scores, paramsToPlot, keysToPlot, scoreLabel, vrange):
     :param scoreLabel: The specified score label (dependent on scoring metric used)
     :param vrange: The visible range of the heatmap (range you wish the heatmap to be specified over)
     """
-    scoreGrid = np.reshape(scores, (len(paramsToPlot[keysToPlot[1]]), len(paramsToPlot[keysToPlot[0]])))
-    plt.figure(figsize=(int(round(len(paramsToPlot[keysToPlot[0]]) / 1.33)), int(round(len(paramsToPlot[keysToPlot[1]]) / 1.33))))
+    scoreGrid = np.reshape(scores, (len(paramsToPlot[keysToPlot[0]]), len(paramsToPlot[keysToPlot[1]])))
+    plt.figure(figsize=(int(round(len(paramsToPlot[keysToPlot[1]]) / 1.33)), int(round(len(paramsToPlot[keysToPlot[0]]) / 1.33))))
     if vrange is not None:
         plt.imshow(scoreGrid, cmap='jet', vmin=vrange[0], vmax=vrange[1])
     else:
         plt.imshow(scoreGrid, cmap='jet')
-    plt.xlabel(keysToPlot[0])
-    plt.xticks(np.arange(len(paramsToPlot[keysToPlot[0]])), paramsToPlot[keysToPlot[0]])
-    plt.ylabel(keysToPlot[1])
-    plt.yticks(np.arange(len(paramsToPlot[keysToPlot[1]])), paramsToPlot[keysToPlot[1]])
+    plt.xlabel(keysToPlot[1])
+    plt.xticks(np.arange(len(paramsToPlot[keysToPlot[1]])), paramsToPlot[keysToPlot[1]])
+    plt.ylabel(keysToPlot[0])
+    plt.yticks(np.arange(len(paramsToPlot[keysToPlot[0]])), paramsToPlot[keysToPlot[0]])
     if scoreLabel is not None:
         plt.title(scoreLabel)
     else:
@@ -167,7 +184,7 @@ def plotScores(scores, paramGrid, scoreLabel=None, vrange=None):
     :param vrange: The visible range over which to display the scores
     :return:
     """
-    keys = list(paramGrid)[0].keys()
+    keys = sorted(list(paramGrid)[0].keys())
     uniqParams = dict()
     order = dict()
     for k in keys:
@@ -185,10 +202,19 @@ def plotScores(scores, paramGrid, scoreLabel=None, vrange=None):
 
     numDim = len(keysToPlot)
     if numDim > 2:
-        print('Too many dimensions to plot. Please select a subset to plot using the plotParams argument.')
+        print('Too many dimensions to plot.')
     elif numDim == 2:
         plot2DGrid(scores, uniqParams, keysToPlot, scoreLabel, vrange)
     elif numDim == 1:
         plot1DGrid(scores, uniqParams, scoreLabel, vrange)
     else:
         print('No parameters that vary in the grid')
+
+
+#------------------------ Full routine ------------------------#
+def parallelizeBestFit(model, paramGrid, X_train, y_train, X_val, y_val, metric=roc_auc_score, bestScore='max', predictType=None, showPlot=True, scoreLabel=None, vrange=None, n_jobs=-1, verbose=10):
+    models = parallelizeFit(model, paramGrid, X_train, y_train, n_jobs, verbose)
+    scores = parallelizeScore(models, X_val, y_val, metric, predictType, n_jobs, verbose)
+    if showPlot:
+        plotScores(scores, paramGrid, scoreLabel, vrange)
+    return getBestModel(models, scores, bestScore), models, scores
