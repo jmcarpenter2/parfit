@@ -130,7 +130,7 @@ def plot1DGrid(scores, paramsToPlot, scoreLabel, vrange):
     plt.show()
 
 
-def plot2DGrid(scores, paramsToPlot, scoreLabel, vrange):
+def plot2DGrid(scores, paramsToPlot, keysToPlot, scoreLabel, vrange):
     """
     Plots a heatmap of scores, over the paramsToPlot
     :param scores: A list of scores, estimated using parallelizeScore
@@ -144,9 +144,9 @@ def plot2DGrid(scores, paramsToPlot, scoreLabel, vrange):
         plt.imshow(scoreGrid, cmap='jet', vmin=vrange[0], vmax=vrange[1])
     else:
         plt.imshow(scoreGrid, cmap='jet')
-    plt.xlabel(keys[0])
+    plt.xlabel(keysToPlot[0])
     plt.xticks(np.arange(len(paramsToPlot[keysToPlot[0]])), paramsToPlot[keysToPlot[0]])
-    plt.ylabel(keys[1])
+    plt.ylabel(keysToPlot[1])
     plt.yticks(np.arange(len(paramsToPlot[keysToPlot[1]])), paramsToPlot[keysToPlot[1]])
     if scoreLabel is not None:
         plt.title(scoreLabel)
