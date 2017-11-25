@@ -91,7 +91,25 @@ You can **pip install parfit** and then import into your code using *import parf
     :param scores: List of corresponding scores returned by scoreModels
     :param bestScore: Is 'max' of scores list best, or 'min' or scores list best?
         Default: 'max'
-    :return:
+    :return: The best model from the models list
+    
+### def **getBestScore**(models, scores, bestScore='max'):
+    """
+    Returns the score of the best model from the models list based on the scores from
+    the scores lsit. Requires "best" to mean 'max' or 'min' of scores
+    :param models: List of models returned by fitModels
+    :param scores: List of corresponding scores returned by scoreModels
+    :param bestScore: Is 'max' of scores list best, or 'min' or scores list best?
+        Default: 'max'
+    :return: The score of the best model
+    """
+    if bestScore == 'max':
+        return np.max(scores)
+    elif bestScore == 'min':
+        return np.min(scores)
+    else:
+        print('Please choose "max" or "min" for bestScore parameter')
+
 
 ### def **plotScores**(scores, paramGrid, scoreLabel=None, vrange=None):
     """
