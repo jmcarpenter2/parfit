@@ -20,10 +20,10 @@ best_model, best_score, all_models, all_scores = pf.bestFit(RandomForestClassifi
 
 print(best_model)
 ```
-![Alt text](~/Desktop/best_rf_model.png?raw=true)
+![Alt text](/../screenshots/screenshots/best_rf_model.png?raw=true "Optional Title")
 
 ## Powerful Visualizations
-![Alt text](~/Desktop/auc_grid.png?raw=true)
+![Alt text](/../screenshots/screenshots/auc_grid.png?raw=true "Optional Title")
 
 ## Docs
 ### def **bestFit**(model, paramGrid, X_train, y_train, X_val, y_val, metric=roc_auc_score, bestScore='max', predictType=None, showPlot=True, scoreLabel=None, vrange=None, n_jobs=-1, verbose=10):
