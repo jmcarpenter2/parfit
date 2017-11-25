@@ -115,12 +115,30 @@ def getBestModel(models, scores, bestScore='max'):
     :param scores: List of corresponding scores returned by scoreModels
     :param bestScore: Is 'max' of scores list best, or 'min' or scores list best?
         Default: 'max'
-    :return:
+    :return: The best model, with associated hyper-parameters
     """
     if bestScore == 'max':
         return models[np.argmax(scores)]
     elif bestScore == 'min':
         return models[np.argmin(scores)]
+    else:
+        print('Please choose "max" or "min" for bestScore parameter')
+
+
+def getBestScore(models, scores, bestScore='max'):
+    """
+    Returns the score of the best model from the models list based on the scores from
+    the scores lsit. Requires "best" to mean 'max' or 'min' of scores
+    :param models: List of models returned by fitModels
+    :param scores: List of corresponding scores returned by scoreModels
+    :param bestScore: Is 'max' of scores list best, or 'min' or scores list best?
+        Default: 'max'
+    :return: The score of the best model
+    """
+    if bestScore == 'max':
+        return np.max(scores)
+    elif bestScore == 'min':
+        return np.min(scores)
     else:
         print('Please choose "max" or "min" for bestScore parameter')
 
@@ -290,4 +308,4 @@ def bestFit(model, paramGrid, X_train, y_train, X_val, y_val, metric=roc_auc_sco
     scores = scoreModels(models, X_val, y_val, metric, predictType, n_jobs, verbose)
     if showPlot:
         plotScores(scores, paramGrid, scoreLabel, vrange)
-    return getBestModel(models, scores, bestScore), models, scores
+    return getBestModel(models, scores, bestScore), getBestScore(models, scores, bestScore), models, scores
