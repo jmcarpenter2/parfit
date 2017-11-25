@@ -14,6 +14,17 @@ You can **pip install parfit** and then import into your code using *import parf
 
 5. The plotScores() function will only work for up to a 3D parameterGrid object. That is, you can only view the scores of a grid varying over 1-3 parameters. Other parameters which do not vary can still be set, and you can still train and scores models over a higher dimensional grid.
 
+## Easy to use
+```
+best_model, best_score, all_models, all_scores = pf.bestFit(RandomForestClassifier, paramGrid, X_train, y_train, X_val, y_val, metric=roc_auc_score, bestScore='max', scoreLabel='AUC')
+
+print(best_model)
+```
+![Alt text](~/Desktop/best_rf_model.png?raw=true)
+
+## Powerful Visualizations
+![Alt text](~/Desktop/auc_grid.png?raw=true)
+
 ## Docs
 ### def **bestFit**(model, paramGrid, X_train, y_train, X_val, y_val, metric=roc_auc_score, bestScore='max', predictType=None, showPlot=True, scoreLabel=None, vrange=None, n_jobs=-1, verbose=10):
     """
