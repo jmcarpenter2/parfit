@@ -16,7 +16,9 @@ You can **pip install parfit** and then import into your code using *import parf
 
 ## Easy to use
 ```
-best_model, best_score, all_models, all_scores = pf.bestFit(RandomForestClassifier, paramGrid, X_train, y_train, X_val, y_val, metric=roc_auc_score, bestScore='max', scoreLabel='AUC')
+best_model, best_score, all_models, all_scores = pf.bestFit(RandomForestClassifier, paramGrid,
+                                                    X_train, y_train, X_val, y_val, 
+                                                    metric=roc_auc_score, bestScore='max', scoreLabel='AUC')
 
 print(best_model)
 ```
