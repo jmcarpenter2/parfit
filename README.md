@@ -36,7 +36,7 @@ You can **pip install parfit** and then import into your code using *import parf
     :param n_jobs: Number of cores to use in parallelization (defaults to -1: all cores)
     :param verbose: The level of verbosity of reporting updates on parallel process
         Default is 10 (send an update at the completion of each job)
-    :return: Returns a tuple including the best scoring model, all models, and all scores
+    :return: Returns a tuple including the best scoring model, the score of the best model, all models, and all scores
     """
 
 ### def **fitModels**(model, paramGrid, X, y, n_jobs=-1, verbose=10):
