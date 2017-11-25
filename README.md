@@ -3,17 +3,6 @@ A package for parallelizing the fit and flexibly scoring of sklearn machine lear
 
 You can **pip install parfit** and then import into your code using *import parfit.parfit as pf*. Once imported, you can use pf.bestFit() or other functions freely.
 
-## Notes
-1. You can either use **bestFit()** to automate the steps of the process, and optionally plot the scores over the parameter grid, OR you can do each step in order [*fitModels()* -> *scoreModels()* -> *plotScores()* -> *getBestModel()* -> *getBestScore()*]
-
-2. Be sure to specify ALL parameters in the ParameterGrid, even the ones you are not searching over.
-
-3. For example usage, see parfit_ex.ipynb. Each function is well-documented in the .py file. In Jupyter Notebooks, you can see the docs by pressing Shift+Tab(x3). Also, the documentation is listed below.
-
-4. This package is designed for use with sklearn machine learning models, but in theory will work with any model that has a .fit(X,y) function. Furthermore, the sklearn scoring metrics are typically used, but any function that reads in two vectors and returns a score will work.
-
-5. The plotScores() function will only work for up to a 3D parameterGrid object. That is, you can only view the scores of a grid varying over 1-3 parameters. Other parameters which do not vary can still be set, and you can still train and scores models over a higher dimensional grid.
-
 ## Easy to use
 ```
 best_model, best_score, all_models, all_scores = pf.bestFit(RandomForestClassifier, paramGrid,
@@ -26,6 +15,17 @@ print(best_model)
 
 ## Powerful Visualizations
 ![Alt text](/../screenshots/screenshots/auc_grid.png?raw=true "Optional Title")
+
+## Notes
+1. You can either use **bestFit()** to automate the steps of the process, and optionally plot the scores over the parameter grid, OR you can do each step in order [*fitModels()* -> *scoreModels()* -> *plotScores()* -> *getBestModel()* -> *getBestScore()*]
+
+2. Be sure to specify ALL parameters in the ParameterGrid, even the ones you are not searching over.
+
+3. For example usage, see parfit_ex.ipynb. Each function is well-documented in the .py file. In Jupyter Notebooks, you can see the docs by pressing Shift+Tab(x3). Also, the documentation is listed below.
+
+4. This package is designed for use with sklearn machine learning models, but in theory will work with any model that has a .fit(X,y) function. Furthermore, the sklearn scoring metrics are typically used, but any function that reads in two vectors and returns a score will work.
+
+5. The plotScores() function will only work for up to a 3D parameterGrid object. That is, you can only view the scores of a grid varying over 1-3 parameters. Other parameters which do not vary can still be set, and you can still train and scores models over a higher dimensional grid.
 
 ## Docs
 ### def **bestFit**(model, paramGrid, X_train, y_train, X_val, y_val, metric=roc_auc_score, bestScore='max', predictType=None, showPlot=True, scoreLabel=None, vrange=None, n_jobs=-1, verbose=10):
