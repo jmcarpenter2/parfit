@@ -103,13 +103,6 @@ You can **pip install parfit** and then import into your code using *import parf
         Default: 'max'
     :return: The score of the best model
     """
-    if bestScore == 'max':
-        return np.max(scores)
-    elif bestScore == 'min':
-        return np.min(scores)
-    else:
-        print('Please choose "max" or "min" for bestScore parameter')
-
 
 ### def **plotScores**(scores, paramGrid, scoreLabel=None, vrange=None):
     """
