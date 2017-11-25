@@ -8,7 +8,7 @@ You can **pip install parfit** and then import into your code using *import parf
 
 2. Be sure to specify ALL parameters in the ParameterGrid, even the ones you are not searching over.
 
-3. Each function is well-documented in the .py file. In Jupyter Notebooks, you can see the docs by pressing Shift+Tab(x3). Also, the documentation is listed below.
+3. For example usage, see parfit_ex.ipynb. Each function is well-documented in the .py file. In Jupyter Notebooks, you can see the docs by pressing Shift+Tab(x3). Also, the documentation is listed below.
 
 4. This package is designed for use with sklearn machine learning models, but in theory will work with any model that has a .fit(X,y) function
 
