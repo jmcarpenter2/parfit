@@ -300,7 +300,7 @@ def bestFit(model, paramGrid, X_train, y_train, X_val, y_val, metric=roc_auc_sco
     :param n_jobs: Number of cores to use in parallelization (defaults to -1: all cores)
     :param verbose: The level of verbosity of reporting updates on parallel process
         Default is 10 (send an update at the completion of each job)
-    :return: Returns a tuple including the best scoring model, all models, and all scores
+    :return: Returns a tuple including the best scoring model, the score of the best model, all models, and all scores
     """
     print('-------------FITTING MODELS-------------')
     models = fitModels(model, paramGrid, X_train, y_train, n_jobs, verbose)
