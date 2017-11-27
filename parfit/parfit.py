@@ -152,7 +152,7 @@ def plot1DGrid(scores, paramsToPlot, scoreLabel, vrange):
     :param scoreLabel: The specified score label (dependent on scoring metric used)
     :param vrange: The yrange of the plot
     """
-    key = paramsToPlot.keys()
+    key = list(paramsToPlot.keys())
     plt.figure(figsize=(int(round(len(paramsToPlot[key[0]]) / 1.33)), 6))
     plt.plot(np.linspace(0, max(paramsToPlot[key[0]]), len(paramsToPlot[key[0]])), scores, '-or')
     plt.xlabel(key[0])
