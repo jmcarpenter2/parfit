@@ -2,3 +2,4 @@ matplotlib
 np
 numpy
 scikit-learn
+joblib
