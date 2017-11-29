@@ -133,14 +133,15 @@ def plotScores(scores, paramGrid, scoreLabel=None, vrange=None):
     :return:
     """
     keys = sorted(list(paramGrid)[0].keys())
+    print(keys)
     uniqParams = dict()
     order = dict()
     for k in keys:
-        order[k] = np.unique([params[k]
+        order[k] = np.unique([params[k] if params[k] is not None else 'None' 
                               for params in list(paramGrid)], return_index=True)[1]
         uniqParams[k] = [params[k]
                          for params in np.asarray(list(paramGrid))[sorted(order[k])]]
-
+        
     keysToPlot = list()
     for k in keys:
         if len(uniqParams[k]) > 1:
