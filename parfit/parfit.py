@@ -3,6 +3,7 @@ from sklearn.metrics import roc_auc_score
 import matplotlib.pyplot as plt
 import matplotlib.colorbar as cb
 import numpy as np
+import math
 
 #------------------------ Fitting routines ------------------------#
 def fitOne(model, X, y, params):
@@ -80,7 +81,7 @@ def scoreOne(model, X, y, metric, predictType):
             return metric(y, model.predict(X))
 
 
-def scoreModels(models, X, y, metric=roc_auc_score, predictType=None, n_jobs=-1, verbose=10):
+def scoreModels(models, X, y, metric=roc_auc_score, predictType=None, n_jobs=-1, verbose=1):
     """
     Parallelizes scoring all models using provided metric for given models on scoring data
     :param models: The lists of fitted models you wish to score, fitted using fitModels
@@ -305,7 +306,7 @@ def bestFit(model, paramGrid, X_train, y_train, X_val, y_val, metric=roc_auc_sco
     print('-------------FITTING MODELS-------------')
     models = fitModels(model, paramGrid, X_train, y_train, n_jobs, verbose)
     print('-------------SCORING MODELS-------------')
-    scores = scoreModels(models, X_val, y_val, metric, predictType, n_jobs, verbose)
+    scores = scoreModels(models, X_val, y_val, metric, predictType, n_jobs, math.ceil(verbose/10.0))
     if showPlot:
         plotScores(scores, paramGrid, scoreLabel, vrange)
     return getBestModel(models, scores, bestScore), getBestScore(models, scores, bestScore), models, scores
