@@ -77,7 +77,11 @@ def plot3DGrid(scores, paramsToPlot, keysToPlot, scoreLabel, vrange):
     vmax = np.max(scores)
     scoreGrid = np.reshape(scores, (len(paramsToPlot[keysToPlot[0]]), len(
         paramsToPlot[keysToPlot[1]]), len(paramsToPlot[keysToPlot[2]])))
-
+    
+    smallest_dim = np.argmin(scoreGrid.shape)
+    scoreGrid = np.swapaxes(scoreGrid, smallest_dim, 2)
+    keysToPlot[smallest_dim], keysToPlot[2] = keysToPlot[2], keysToPlot[smallest_dim]
+    
     nelements = scoreGrid.shape[2]
     nrows = np.floor(nelements ** 0.5).astype(int)
     ncols = np.ceil(1. * nelements / nrows).astype(int)
