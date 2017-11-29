@@ -26,10 +26,10 @@ best_model, best_score, all_models, all_scores = bestFit(RandomForestClassifier,
 
 print(best_model)
 ```
-![Alt text](/../screenshots/screenshots/best_rf_model.png?raw=true "Optional Title")
+![Alt text](/../screenshots/screenshots/best_rf_model_3D.png?raw=true "Optional Title")
 
 ## Powerful Visualizations
-![Alt text](/../screenshots/screenshots/auc_grid.png?raw=true "Optional Title")
+![Alt text](/../screenshots/screenshots/scoring_grid_3D.png?raw=true "Optional Title")
 
 ## Notes
 1. You can either use **bestFit()** to automate the steps of the process, and optionally plot the scores over the parameter grid, OR you can do each step in order [*fitModels()* -> *scoreModels()* -> *plotScores()* -> *getBestModel()* -> *getBestScore()*]
