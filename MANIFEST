@@ -2,4 +2,7 @@
 setup.cfg
 setup.py
 parfit/__init__.py
+parfit/fit.py
 parfit/parfit.py
+parfit/plot.py
+parfit/score.py

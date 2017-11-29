@@ -79,8 +79,9 @@ def plot3DGrid(scores, paramsToPlot, keysToPlot, scoreLabel, vrange):
         paramsToPlot[keysToPlot[1]]), len(paramsToPlot[keysToPlot[2]])))
     
     smallest_dim = np.argmin(scoreGrid.shape)
-    scoreGrid = np.swapaxes(scoreGrid, smallest_dim, 2)
-    keysToPlot[smallest_dim], keysToPlot[2] = keysToPlot[2], keysToPlot[smallest_dim]
+    if smallest_dim != 2:
+        scoreGrid = np.swapaxes(scoreGrid, smallest_dim, 2)
+        keysToPlot[smallest_dim], keysToPlot[2] = keysToPlot[2], keysToPlot[smallest_dim]
     
     nelements = scoreGrid.shape[2]
     nrows = np.floor(nelements ** 0.5).astype(int)
@@ -108,6 +109,8 @@ def plot3DGrid(scores, paramsToPlot, keysToPlot, scoreLabel, vrange):
         ax.spines["bottom"].set_visible(False)
         ax.spines["left"].set_visible(False)
         i += 1
+        if i == nelements:
+            break
     if scoreLabel is not None:
         fig.suptitle(scoreLabel, fontsize=18)
     else:
