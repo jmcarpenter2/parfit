@@ -133,7 +133,6 @@ def plotScores(scores, paramGrid, scoreLabel=None, vrange=None):
     :return:
     """
     keys = sorted(list(paramGrid)[0].keys())
-    print(keys)
     uniqParams = dict()
     order = dict()
     for k in keys:
