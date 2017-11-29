@@ -16,11 +16,11 @@ from parfit.score import *
 from parfit.plot import *
 ```
 
- Once imported, you can use pf.bestFit() or other functions freely.
+ Once imported, you can use bestFit() or other functions freely.
 
 ## Easy to use
 ```
-best_model, best_score, all_models, all_scores = pf.bestFit(RandomForestClassifier, paramGrid,
+best_model, best_score, all_models, all_scores = bestFit(RandomForestClassifier, paramGrid,
                                                     X_train, y_train, X_val, y_val, 
                                                     metric=roc_auc_score, bestScore='max', scoreLabel='AUC')
 
