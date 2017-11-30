@@ -20,6 +20,16 @@ from parfit.plot import *
 
 ## Easy to use
 ```
+grid = {
+    'min_samples_leaf': [1, 5, 10, 25, 50, 100, 125, 150, 175, 200],
+    'max_features': ['sqrt', 'log2', 0.4, 0.5, 0.6, 0.7],
+    'class_weight': [None, 'balanced'],
+    'n_estimators': [60],
+    'n_jobs': [-1],
+    'random_state': [42]
+}
+paramGrid = ParameterGrid(grid)
+
 best_model, best_score, all_models, all_scores = bestFit(RandomForestClassifier, paramGrid,
                                                     X_train, y_train, X_val, y_val, 
                                                     metric=roc_auc_score, bestScore='max', scoreLabel='AUC')
