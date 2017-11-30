@@ -1,16 +1,16 @@
-	# Documentation
+# Documentation
 
-## 1.  `bestFit`
-
-
+## 1. `bestFit`
 
 ```python
-def bestFit(model, paramGrid, X_train, y_train, X_val, y_val, metric=roc_auc_score, bestScore='max', predictType=None, showPlot=True, scoreLabel=None, vrange=None, n_jobs=-1, verbose=10)
+def bestFit(model, paramGrid, X_train, y_train, X_val, y_val,
+	        metric=roc_auc_score, bestScore='max', predictType=None, 
+	        showPlot=True, scoreLabel=None, vrange=None, n_jobs=-1, verbose=10)
 ```
 
 Parallelizes choosing the best fitting model on the validation set, doing a grid search over the parameter space.Models are scored using specified metric, and user must determine whether the best score is the 'max' or 'min' of scores.
 
-**Parameters: **
+**Parameters:**
 
 `model`: The function name of the model you wish to pass, e.g. LogisticRegression  
 
@@ -43,13 +43,11 @@ Parallelizes choosing the best fitting model on the validation set, doing a grid
 
 `verbose`: The level of verbosity of reporting updates on parallel process Default is 10 (send an update at the completion of each job)
 
-**returns: **
+**returns:**
 
 Returns a tuple including the best scoring model, the score of the best model, all models, and all scores
 
-
-
-## 2. `fitModels`
+## 2.`fitModels`
 
 
 
@@ -97,7 +95,7 @@ Returns a list of fitted models
 
 
 
-## 3. `scoreModels`
+## 3.`scoreModels`
 
 
 
@@ -135,9 +133,7 @@ Returns a list of scores in the same order as the list of models
 
 
 
-## 4. `getBestModel`
-
-
+## 4.`getBestModel`
 
 ```python
 def getBestModel(models, scores, bestScore='max')
@@ -157,11 +153,7 @@ the scores list. Requires "best" to mean 'max' or 'min' of scores.
 
 The best model from the models list.
 
-
-
-## 5. `bestScore`
-
-
+## 5.`bestScore`
 
 ```python
 def getBestScore(models, scores, bestScore='max')
@@ -185,15 +177,13 @@ The score of the best model
 
 
 
-## 6. `plotScores`
+## 6.`plotScores`
 
 
 
 ```python
 def plotScores(scores, paramGrid, scoreLabel=None, vrange=None)
 ```
-
-
 Makes a plot representing how the scores vary over the parameter grid Automatically decides whether to use a simple line plot (varying over one parameter) or a heatmap (varying over two parameters).
 
 **Parameters**:
