@@ -10,7 +10,8 @@ $pip install -U parfit # to upgrade to latest version
 and then import into your code using:
 ```
 from parfit.parfit import bestFit # Necessary if you wish to use bestFit
-# Necessary if you wish to do run each step sequentially
+
+# Necessary if you wish to run each step sequentially
 from parfit.fit import *
 from parfit.score import *
 from parfit.plot import *
@@ -48,11 +49,9 @@ print(best_model)
 
 2. Be sure to specify ALL parameters in the ParameterGrid, even the ones you are not searching over.
 
-3. For example usage, see parfit_ex.ipynb. Each function is well-documented in the .py file. In Jupyter Notebooks, you can see the docs by pressing Shift+Tab(x3). Also, the documentation is listed below.
+3. For example usage, see parfit_ex.ipynb. Each function is well-documented in the .py file. In Jupyter Notebooks, you can see the docs by pressing Shift+Tab(x3). Also, check out the complete documentation [here](docs/documentation.md)
 
 4. This package is designed for use with sklearn machine learning models, but in theory will work with any model that has a .fit(X,y) function. Furthermore, the sklearn scoring metrics are typically used, but any function that reads in two vectors and returns a score will work.
 
 5. The plotScores() function will only work for up to a 3D parameterGrid object. That is, you can only view the scores of a grid varying over 1-3 parameters. Other parameters which do not vary can still be set, and you can still train and scores models over a higher dimensional grid.
-
-check out the complete documentation [here](docs/documentation.md)
 
