@@ -12,10 +12,7 @@ Parallelizes choosing the best fitting model on the validation set, doing a grid
 
 **Parameters:**
 
-`model`: The function name of the model you wish to pass, e.g. LogisticRegression  
-
-*NOTE: do not instantiate with ()*
-
+`model`: The instantiated model you wish to pass, e.g. LogisticRegression()
 
 `paramGrid`: The ParameterGrid object created from sklearn.model_selection
 
@@ -59,10 +56,7 @@ Parallelizes fitting all models using all combinations of parameters in paramGri
 
 **Parameters**:
 
-`model`: The function name of the model you wish to pass, 
-e.g. LogisticRegression 
-
-*NOTE: do not instantiate with ()*
+`model`: The instantiated model you wish to pass, e.g. LogisticRegression()
 
 `paramGrid`: The ParameterGrid object created from sklearn.model_selection
 
