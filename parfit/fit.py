@@ -9,8 +9,7 @@ __all__ = ["fitModels", "fitOne"]
 def fitOne(model, X, y, params):
     """
     Makes one model fit using provided data and parameters
-    :param model: The instantiated model you wish to pass,
-        e.g. LogisticRegression()
+    :param model: The instantiated model you wish to pass, e.g. LogisticRegression()
     :param X: The independent variable data
     :param y: The response variable data
     :param params: The parameters passed through to the model from the parameter grid
@@ -23,8 +22,7 @@ def fitOne(model, X, y, params):
 def fitModels(model, paramGrid, X, y, n_jobs=-1, verbose=10):
     """
     Parallelizes fitting all models using all combinations of parameters in paramGrid on provided data.
-    :param model: The function name of the model you wish to pass,
-        e.g. LogisticRegression [NOTE: do not instantiate with ()]
+    :param model: The function name of the model you wish to pass, e.g. LogisticRegression()
     :param paramGrid: The ParameterGrid object created from sklearn.model_selection
     :param X: The independent variable data
     :param y: The response variable data
@@ -36,7 +34,7 @@ def fitModels(model, paramGrid, X, y, n_jobs=-1, verbose=10):
     Example usage:
         from sklearn.linear_model import LogisticRegression
         from sklearn.model_selection import ParameterGrid
-        model = LogisticRegression
+        model = LogisticRegression()
         grid = {
             'C': [1e-4, 1e-3], # regularization
             'penalty': ['l1','l2'], # penalty type

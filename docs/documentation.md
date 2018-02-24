@@ -26,9 +26,11 @@ Parallelizes choosing the best fitting model on the validation set, doing a grid
 
 `metric`: The metric used to score the models, e.g. imported from sklearn.metrics
 
-`bestScore`: Is 'max' of scores list best, or 'min' or scores list best? (default is'max') 
+`greater_is_better`: Choice between optimizing for greater scores or lesser scores
+Default True means greater and False means lesser
 
-`predictType`: Choice between 'predict_proba' and 'predict' for scoring routine Defaults to 'predict_proba' when possible
+`predict_proba`: Choice between 'predict_proba' and 'predict' for scoring routine
+Default True means predict_proba and False means predict
 
 `showPlot`: Whether or not to display the plot of the scores over the parameter grid
 
@@ -77,7 +79,7 @@ Returns a list of fitted models
 ```python
     from sklearn.linear_model import LogisticRegression
     from sklearn.model_selection import ParameterGrid
-    model = LogisticRegression
+    model = LogisticRegression()
     grid = {
         'C': [1e-4, 1e-3], # regularization
         'penalty': ['l1','l2'], # penalty type
@@ -103,13 +105,14 @@ Parallelizes scoring all models using provided metric for given models on scorin
 
 `models`: The lists of fitted models you wish to score, fitted using fitModels
 
-`X`: The X data ou wish to use for prediction
+`X`: The X data you wish to use for prediction
 
 `y`: The ground truth y data you wish to compare the predictions to
 
 `metric`: The metric you wish to use to score the predictions using Defaults to roc_auc_score
 
-`predictType`: Choice between 'predict_proba' and 'predict' for scoring routine Defaults to 'predict_proba' when possible
+`predict_proba`: Choice between 'predict_proba' and 'predict' for scoring routine
+Default True means predict_proba and False means predict
 
 `n_jobs`: Number of cores to use in parallelization (defaults to -1: all cores)
 
@@ -141,7 +144,8 @@ the scores list. Requires "best" to mean 'max' or 'min' of scores.
 
 `scores`: List of corresponding scores returned by scoreModels
 
-`bestScore`: Is 'max' of scores list best, or 'min' or scores list best? (Default: 'max')
+`greater_is_better`: Choice between optimizing for greater scores or lesser scores
+Default True means greater and False means lesser
 
 **return**: 
 
@@ -162,7 +166,8 @@ the scores lsit. Requires "best" to mean 'max' or 'min' of scores
 
 `scores`: List of corresponding scores returned by scoreModels
 
-`bestScore`: Is 'max' of scores list best, or 'min' or scores list best? Default: 'max'
+`greater_is_better`: Choice between optimizing for greater scores or lesser scores
+Default True means greater and False means lesser
 
 **returns**:
 
