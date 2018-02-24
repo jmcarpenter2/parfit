@@ -49,7 +49,7 @@ print(best_model)
 
 2. Be sure to specify ALL parameters in the ParameterGrid, even the ones you are not searching over.
 
-3. For example usage, see parfit_ex.ipynb. Each function is well-documented in the .py file. In Jupyter Notebooks, you can see the docs by pressing Shift+Tab(x3). Also, check out the complete documentation [here](docs/documentation.md)
+3. For example usage, see parfit_ex.ipynb. Each function is well-documented in the .py file. In Jupyter Notebooks, you can see the docs by pressing Shift+Tab(x3). Also, check out the complete documentation [here](docs/documentation.md) along with the [changelog](docs/changelog.md).
 
 4. This package is designed for use with sklearn machine learning models, but in theory will work with any model that has a .fit(X,y) function. Furthermore, the sklearn scoring metrics are typically used, but any function that reads in two vectors and returns a score will work.
 
