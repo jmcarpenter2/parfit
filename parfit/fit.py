@@ -1,6 +1,4 @@
 from joblib import Parallel, delayed
-from sklearn.metrics import roc_auc_score
-import numpy as np
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -11,15 +9,15 @@ __all__ = ["fitModels", "fitOne"]
 def fitOne(model, X, y, params):
     """
     Makes one model fit using provided data and parameters
-    :param model: The function name of the model you wish to pass,
-        e.g. LogisticRegression [NOTE: do not instantiate with ()]
+    :param model: The instantiated model you wish to pass,
+        e.g. LogisticRegression()
     :param X: The independent variable data
     :param y: The response variable data
     :param params: The parameters passed through to the model from the parameter grid
     :return: Returns the fitted model
     """
-    m = model(**params)
-    return m.fit(X, y)
+    model.set_params(**params)
+    return model.fit(X, y)
 
 
 def fitModels(model, paramGrid, X, y, n_jobs=-1, verbose=10):
