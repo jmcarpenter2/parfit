@@ -47,7 +47,9 @@ print(best_model)
 1. You can either use **bestFit()** to automate the steps of the process, and optionally plot the scores over the parameter grid, OR you can do each step in order: 
 
 > `fitModels()` -> `scoreModels()` -> `plotScores()` -> `getBestModel()` -> `getBestScore()`
+
 or
+
 > `crossvalModels()` -> `plotScores()` -> `getBestModel()` -> `getBestScore()`
 
 2. Be sure to specify ALL parameters in the ParameterGrid, even the ones you are not searching over.
