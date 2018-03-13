@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.18
+
+### Major functionality addition:
+Parfit now allows for cross-validation. For usage, see documentation [here](docs/documentation.md).
+
+
 ## Version 0.17
 
 ### Major functionality change: 

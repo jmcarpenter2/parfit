@@ -3,12 +3,13 @@
 ## 1. `bestFit`
 
 ```python
-def bestFit(model, paramGrid, X_train, y_train, X_val, y_val,
-	        metric=roc_auc_score, bestScore='max', predictType=None, 
+def bestFit(model, paramGrid, X_train, y_train, X_val=None, y_val=None, nfolds=5,
+	        metric=roc_auc_score, greater_is_better=True, predict_proba=True, 
 	        showPlot=True, scoreLabel=None, vrange=None, n_jobs=-1, verbose=10)
 ```
 
-Parallelizes choosing the best fitting model on the validation set, doing a grid search over the parameter space.Models are scored using specified metric, and user must determine whether the best score is the 'max' or 'min' of scores.
+Parallelizes choosing the best fitting model on the validation set, doing a grid search over the parameter space. 
+Models are scored using specified metric. Optional visualization of the scores.
 
 **Parameters:**
 
@@ -20,9 +21,11 @@ Parallelizes choosing the best fitting model on the validation set, doing a grid
 
 `y_train`: The dependent variable data used to fit the models
 
-`X_val`: The independent variable data used to score the models
+`X_val`: The independent variable data used to score the models (default None)
 
-`y_val`: The dependent variable data used to score the models
+`y_val`: The dependent variable data used to score the models (default None)
+
+`nfolds`: The cross-validation number of folds, used if a validation set is not specified
 
 `metric`: The metric used to score the models, e.g. imported from sklearn.metrics
 
@@ -46,9 +49,60 @@ Default True means predict_proba and False means predict
 
 Returns a tuple including the best scoring model, the score of the best model, all models, and all scores
 
-## 2.`fitModels`
 
 
+
+## 2.`crossvalModels`
+```python 
+def crossvalOne(model, X, y, params, nfolds, metric=roc_auc_score, 
+            predict_proba=True, n_jobs=-1, verbose=1)
+```
+
+Parallelizes fitting and scoring all cross-validation models using all combinations of parameters in paramGrid on provided data.
+
+**Parameters**:
+
+`model`: The instantiated model you wish to pass, e.g. LogisticRegression()
+
+`paramGrid`: The ParameterGrid object created from sklearn.model_selection
+
+`X`: The independent variable data
+
+`y`: The response variable data
+
+`nfolds`: The number of folds you wish to use for cross-validation
+
+`metric`: The metric you wish to use to score the predictions using Defaults to roc_auc_score
+
+`predict_proba`: Choice between 'predict_proba' and 'predict' for scoring routine
+Default True means predict_proba and False means predict
+
+`n_jobs`: Number of cores to use in parallelization (defaults to -1: all cores)
+
+`verbose`: The level of verbosity of reporting updates on parallel process Default is 10 (send an update at the completion of each job)
+
+**returns**: 
+
+Returns the grid of mean of cross-validation scores for the specified parameters, and the associated paramGrid
+
+**Example usage**:
+
+```python
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.model_selection import ParameterGrid
+    model = LogisticRegression()
+    grid = {
+        'C': [1e-4, 1e-3], # regularization
+        'penalty': ['l1','l2'], # penalty type
+        'n_jobs': [-1] # parallelize within each fit over all cores
+    }
+    paramGrid = ParameterGrid(grid)
+    myScores, myModels = crossvalModels(model, paramGrid, X_train, y_train, nfolds=5)
+```
+
+
+
+## 3.`fitModels`
 
 ```python
 def fitModels(model, paramGrid, X, y, n_jobs=-1, verbose=10)
@@ -91,9 +145,7 @@ Returns a list of fitted models
 
 
 
-## 3.`scoreModels`
-
-
+## 4.`scoreModels`
 
 ```python
 def scoreModels(models, X, y, metric=roc_auc_score, predictType=None, n_jobs=-1, verbose=10)
@@ -130,13 +182,13 @@ Returns a list of scores in the same order as the list of models
 
 
 
-## 4.`getBestModel`
+## 5.`getBestModel`
 
 ```python
-def getBestModel(models, scores, bestScore='max')
+def getBestModel(models, scores, greater_is_better=True)
 ```
 Returns the best model from the models list based on the scores from
-the scores list. Requires "best" to mean 'max' or 'min' of scores.
+the scores list. "Best" means 'max' or 'min' of scores, dependent on greater_is_better
 
 **Parameters**:
 
@@ -151,18 +203,19 @@ Default True means greater and False means lesser
 
 The best model from the models list.
 
-## 5.`bestScore`
+
+
+
+## 6.`bestScore`
 
 ```python
-def getBestScore(models, scores, bestScore='max')
+def getBestScore(scores, greater_is_better=True)
 ```
 
 Returns the score of the best model from the models list based on the scores from
-the scores lsit. Requires "best" to mean 'max' or 'min' of scores
+the scores lsit. "Best" means 'max' or 'min' of scores, dependent on greater_is_better
 
 **Parameters**:
-
-`models`: List of models returned by fitModels
 
 `scores`: List of corresponding scores returned by scoreModels
 
@@ -176,14 +229,13 @@ The score of the best model
 
 
 
-## 6.`plotScores`
-
-
+## 7.`plotScores`
 
 ```python
 def plotScores(scores, paramGrid, scoreLabel=None, vrange=None)
 ```
-Makes a plot representing how the scores vary over the parameter grid Automatically decides whether to use a simple line plot (varying over one parameter) or a heatmap (varying over two parameters).
+Makes a plot representing how the scores vary over the parameter grid.
+Automatically decides whether to use a simple line plot (varying over one parameter) or a heatmap (varying over two/three parameters).
 
 **Parameters**:
 
@@ -197,6 +249,6 @@ Makes a plot representing how the scores vary over the parameter grid Automatica
 
 **returns**:
 
-returns a plot
+Displays a plot
 
 

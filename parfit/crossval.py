@@ -45,7 +45,7 @@ def crossvalOne(model, X, y, params, nfolds, metric=roc_auc_score, predict_proba
 
 def crossvalModels(model, paramGrid, X, y, nfolds=5, metric=roc_auc_score, predict_proba=True, n_jobs=-1, verbose=10):
     """
-    Parallelizes fitting all cross-validation models using all combinations of parameters in paramGrid on provided data.
+    Parallelizes fitting and scoring all cross-validation models using all combinations of parameters in paramGrid on provided data.
     :param model: The instantiated model you wish to pass, e.g. LogisticRegression()
     :param paramGrid: The ParameterGrid object created from sklearn.model_selection
     :param X: The independent variable data
@@ -57,7 +57,8 @@ def crossvalModels(model, paramGrid, X, y, nfolds=5, metric=roc_auc_score, predi
     :param n_jobs: Number of cores to use in parallelization (defaults to -1: all cores)
     :param verbose: The level of verbosity of reporting updates on parallel process
         Default is 10 (send an update at the completion of each job)
-    :return: Returns the grid of mean and sd of cross-validation scores for the specified parameters
+    :return: Returns the grid of mean of cross-validation scores for the specified parameters,
+        and the associated paramGrid
     """
     return Parallel(n_jobs=n_jobs, verbose=verbose)(delayed(crossvalOne)(model,
                                                                          X,
