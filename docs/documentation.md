@@ -206,7 +206,7 @@ The best model from the models list.
 
 
 
-## 6.`bestScore`
+## 6.`getBestScore`
 
 ```python
 def getBestScore(scores, greater_is_better=True)
