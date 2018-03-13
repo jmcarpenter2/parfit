@@ -59,8 +59,8 @@ def scoreModels(models, X, y, metric=roc_auc_score, predict_proba=True, n_jobs=-
 def getBestModel(models, scores, greater_is_better=True):
     """
     Returns the best model from the models list based on the scores from
-    the scores list. Requires "best" to mean 'max' or 'min' of scores
-    :param models: List of models returned by fitModels
+    the scores list. "Best" means 'max' or 'min' of scores, dependent on greater_is_better
+    :param models: List of models returned by fitModels or parameters returned by crossvalModels
     :param scores: List of corresponding scores returned by scoreModels
     :param greater_is_better: Choice between optimizing for greater scores or lesser scores
         Default True means greater and False means lesser
@@ -72,11 +72,10 @@ def getBestModel(models, scores, greater_is_better=True):
         return models[np.argmin(scores)]
 
 
-def getBestScore(models, scores, greater_is_better=True):
+def getBestScore(scores, greater_is_better=True):
     """
     Returns the score of the best model from the models list based on the scores from
-    the scores lsit. Requires "best" to mean 'max' or 'min' of scores
-    :param models: List of models returned by fitModels
+    the scores lsit. "Best" means 'max' or 'min' of scores, dependent on greater_is_better
     :param scores: List of corresponding scores returned by scoreModels
     :param greater_is_better: Choice between optimizing for greater scores or lesser scores
         Default True means greater and False means lesser

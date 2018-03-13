@@ -22,7 +22,7 @@ def fitOne(model, X, y, params):
 def fitModels(model, paramGrid, X, y, n_jobs=-1, verbose=10):
     """
     Parallelizes fitting all models using all combinations of parameters in paramGrid on provided data.
-    :param model: The function name of the model you wish to pass, e.g. LogisticRegression()
+    :param model: The instantiated model you wish to pass, e.g. LogisticRegression()
     :param paramGrid: The ParameterGrid object created from sklearn.model_selection
     :param X: The independent variable data
     :param y: The response variable data
