@@ -49,7 +49,7 @@ def scoreModels(models, X, y, metric=roc_auc_score, predict_proba=True, n_jobs=-
         myScores = scoreModels(myModels, X_val, y_val, recall_score)
 
     """
-    return Parallel(n_jobs=n_jobs, verbose=verbose)(delayed(scoreOne)(m,
+    return Parallel(n_jobs=n_jobs, verbose=np.ceil(verbose/10))(delayed(scoreOne)(m,
                                                                       X,
                                                                       y,
                                                                       metric,

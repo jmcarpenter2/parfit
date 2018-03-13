@@ -33,7 +33,7 @@ def crossvalOne(model, X, y, params, nfolds, metric=roc_auc_score, predict_proba
                                                                       np.asarray(X)[train_index],
                                                                       np.asarray(y)[train_index],
                                                                       params) for train_index in train_indices)
-    scores = Parallel(n_jobs=n_jobs, verbose=verbose)(delayed(scoreOne)(fitted_model,
+    scores = Parallel(n_jobs=n_jobs, verbose=0)(delayed(scoreOne)(fitted_model,
                                                                         np.asarray(X)[test_index],
                                                                         np.asarray(y)[test_index],
                                                                         metric,
