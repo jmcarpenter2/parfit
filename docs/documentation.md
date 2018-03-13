@@ -54,7 +54,7 @@ Returns a tuple including the best scoring model, the score of the best model, a
 
 ## 2.`crossvalModels`
 ```python 
-def crossvalOne(model, X, y, params, nfolds, metric=roc_auc_score, 
+def crossvalModels(model, X, y, paramGrid, nfolds, metric=roc_auc_score, 
             predict_proba=True, n_jobs=-1, verbose=1)
 ```
 
