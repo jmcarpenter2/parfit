@@ -3,8 +3,7 @@ A package for parallelizing the fit and flexibly scoring of sklearn machine lear
 
 Installation:
 ```
-$pip install parfit # first time installation
-$pip install -U parfit # to upgrade to latest version
+$pip install parfit==0.18
 ``` 
 
 and then import into your code using:
