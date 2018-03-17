@@ -19,11 +19,9 @@ def plot1DGrid(scores, paramsToPlot, scoreLabel, vrange):
     """
     key = list(paramsToPlot.keys())
     plt.figure(figsize=(int(round(len(paramsToPlot[key[0]]) / 1.33)), 6))
-    plt.plot(np.linspace(0, max(paramsToPlot[key[0]]), len(
-        paramsToPlot[key[0]])), scores, '-or')
+    plt.plot(np.linspace(0, len(paramsToPlot[key[0]]), len(scores)), scores, '-or')
     plt.xlabel(key[0])
-    plt.xticks(np.linspace(0, max(paramsToPlot[key[0]]), len(
-        paramsToPlot[key[0]])), paramsToPlot[key[0]])
+    plt.xticks(np.linspace(0, len(paramsToPlot[key[0]]), len(scores)), paramsToPlot[key[0]])
     if scoreLabel is not None:
         plt.ylabel(scoreLabel)
     else:
@@ -136,11 +134,9 @@ def plotScores(scores, paramGrid, scoreLabel=None, vrange=None):
     uniqParams = dict()
     order = dict()
     for k in keys:
-        order[k] = np.unique([params[k] if params[k] is not None else 'None' 
-                              for params in list(paramGrid)], return_index=True)[1]
-        uniqParams[k] = [params[k]
-                         for params in np.asarray(list(paramGrid))[sorted(order[k])]]
-        
+        order[k] = np.unique([str(params[k]) for params in list(paramGrid)], return_index=True)[1]
+        uniqParams[k] = [params[k] for params in np.asarray(list(paramGrid))[sorted(order[k])]]
+
     keysToPlot = list()
     for k in keys:
         if len(uniqParams[k]) > 1:
