@@ -32,7 +32,7 @@ grid = {
 paramGrid = ParameterGrid(grid)
 
 best_model, best_score, all_models, all_scores = bestFit(RandomForestClassifier(), paramGrid,
-                                                    X_train, y_train, nfolds=5,
+                                                    X_train, y_train, X_val, y_val, # nfolds=5 [optional, instead of validation set]
                                                     metric=roc_auc_score, greater_is_better=True, 
                                                     scoreLabel='AUC')
 
