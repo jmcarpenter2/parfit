@@ -23,9 +23,8 @@ from parfit.crossval import *
 ## Easy to use
 ```
 grid = {
-    'min_samples_leaf': [1, 5, 10, 25, 50, 100, 125, 150, 175, 200],
-    'max_features': ['sqrt', 'log2', 0.4, 0.5, 0.6, 0.7],
-    'class_weight': [None, 'balanced'],
+    'min_samples_leaf': [1, 5, 10, 15, 20, 25],
+    'max_features': ['sqrt', 'log2', 0.5, 0.6, 0.7],
     'n_estimators': [60],
     'n_jobs': [-1],
     'random_state': [42]
@@ -33,16 +32,17 @@ grid = {
 paramGrid = ParameterGrid(grid)
 
 best_model, best_score, all_models, all_scores = bestFit(RandomForestClassifier(), paramGrid,
-                                                    X_train, y_train, X_val, y_val, 
+                                                    X_train, y_train, nfolds=5,
                                                     metric=roc_auc_score, greater_is_better=True, 
                                                     scoreLabel='AUC')
 
-print(best_model)
-```
-![Alt text](/assets/best_rf_model_3D.png?raw=true "Optional Title")
+print(best_model, best_score)
 
-## Powerful Visualizations
-![Alt text](/assets/scoring_grid_3D.png?raw=true "Optional Title")
+{'class_weight': None, 'max_features': 'sqrt', 'min_samples_leaf': 1, 'n_estimators': 60, 'n_jobs': -1, 'random_state': 42} 0.9627794057231478
+```
+
+## Interpretable Visualizations
+![Alt text](/assets/scoring_grid_2D.png?raw=true)
 
 ## Notes
 1. You can either use **bestFit()** to automate the steps of the process, and optionally plot the scores over the parameter grid, OR you can do each step in order: 
