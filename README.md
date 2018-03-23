@@ -37,9 +37,9 @@ best_model, best_score, all_models, all_scores = bestFit(RandomForestClassifier(
                                                     scoreLabel='AUC')
 
 print(best_model, best_score)
-
-{'class_weight': None, 'max_features': 'sqrt', 'min_samples_leaf': 1, 'n_estimators': 60, 'n_jobs': -1, 'random_state': 42} 0.9627794057231478
 ```
+```{'class_weight': None, 'max_features': 'sqrt', 'min_samples_leaf': 1, 'n_estimators': 60, 'n_jobs': -1, 'random_state': 42}
+0.9627794057231478```
 
 ## Interpretable Visualizations
 ![Alt text](/assets/scoring_grid_2D.png?raw=true)
