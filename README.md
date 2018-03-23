@@ -39,7 +39,7 @@ best_model, best_score, all_models, all_scores = bestFit(RandomForestClassifier(
 print(best_model, best_score)
 ```
 ```
-{'class_weight': None, 'max_features': 'sqrt', 'min_samples_leaf': 1, 'n_estimators': 60, 'n_jobs': -1, 'random_state': 42}
+{max_features': 'sqrt', 'min_samples_leaf': 1, 'n_estimators': 60, 'n_jobs': -1, 'random_state': 42}
 0.9627794057231478
 ```
 
