@@ -41,6 +41,9 @@ Default True means predict_proba and False means predict
 
 `vrange`: The visible range over which to display the scores
 
+`cmap`: The chosen colormap for 2D and 3D plotting. Default is 'YlOrRd'
+You can invert your chosen colormap by adding '_r' to the end
+
 `n_jobs`: Number of cores to use in parallelization (defaults to -1: all cores)
 
 `verbose`: The level of verbosity of reporting updates on parallel process Default is 10 (send an update at the completion of each job)
@@ -245,7 +248,14 @@ Automatically decides whether to use a simple line plot (varying over one parame
 
 `scoreLabel`: The specified label (dependent on scoring metric used), e.g. 'AUC'
 
+`greater_is_better`: Choice between optimizing for greater scores or lesser scores
+Used to make better scores darker on colormap
+Default True means greater and False means lesser
+
 `vrange`: The visible range over which to display the scores
+
+`cmap`: The chosen colormap for 2D and 3D plotting. Default is 'YlOrRd'
+You can invert your chosen colormap by adding '_r' to the end
 
 **returns**:
 

@@ -10,7 +10,9 @@ warnings.filterwarnings("ignore", category=UserWarning)
 __all__ = ["bestFit"]
 
 
-def bestFit(model, paramGrid, X_train, y_train, X_val=None, y_val=None, nfolds=5, metric=roc_auc_score, greater_is_better=True, predict_proba=True, showPlot=True, scoreLabel=None, vrange=None, n_jobs=-1, verbose=10):
+def bestFit(model, paramGrid, X_train, y_train, X_val=None, y_val=None, nfolds=5,
+            metric=roc_auc_score, greater_is_better=True, predict_proba=True,
+            showPlot=True, scoreLabel=None, vrange=None, cmap='YlOrRd', n_jobs=-1, verbose=10):
     """
     Parallelizes choosing the best fitting model on the validation set, doing a grid search over the parameter space.
         Models are scored using specified metric, and user must determine whether the best score is the 'max' or 'min' of scores.
@@ -29,6 +31,8 @@ def bestFit(model, paramGrid, X_train, y_train, X_val=None, y_val=None, nfolds=5
     :param showPlot: Whether or not to display the plot of the scores over the parameter grid
     :param scoreLabel: The specified label (dependent on scoring metric used), e.g. 'AUC'
     :param vrange: The visible range over which to display the scores
+    :param cmap: The chosen colormap for 2D and 3D plotting. Default is YlOrRd.
+        You can invert your chosen colormap by adding '_r' to the end
     :param n_jobs: Number of cores to use in parallelization (defaults to -1: all cores)
     :param verbose: The level of verbosity of reporting updates on parallel process
         Default is 10 (send an update at the completion of each job)
@@ -44,6 +48,6 @@ def bestFit(model, paramGrid, X_train, y_train, X_val=None, y_val=None, nfolds=5
         scores = scoreModels(models, X_val, y_val, metric,
                              predict_proba, n_jobs, verbose)
     if showPlot:
-        plotScores(scores, paramGrid, scoreLabel, vrange)
+        plotScores(scores, paramGrid, scoreLabel, greater_is_better, vrange, cmap)
 
     return getBestModel(models, scores, greater_is_better), getBestScore(scores, greater_is_better), models, scores

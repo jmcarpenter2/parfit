@@ -32,22 +32,31 @@ def plot1DGrid(scores, paramsToPlot, scoreLabel, vrange):
     plt.show()
 
 
-def plot2DGrid(scores, paramsToPlot, keysToPlot, scoreLabel, vrange):
+def plot2DGrid(scores, paramsToPlot, keysToPlot, scoreLabel, greater_is_better, vrange, cmap):
     """
     Plots a heatmap of scores, over the paramsToPlot
     :param scores: A list of scores, estimated using parallelizeScore
     :param paramsToPlot: The parameters to plot, chosen automatically by plotScores
     :param scoreLabel: The specified score label (dependent on scoring metric used)
+    :param greater_is_better: Choice between optimizing for greater scores or lesser scores
+        Used to make better scores darker on colormap
+        Default True means greater and False means lesser
     :param vrange: The visible range of the heatmap (range you wish the heatmap to be specified over)
+    :param cmap: The chosen colormap for 2D and 3D plotting. Default is YlOrRd
     """
     scoreGrid = np.reshape(
         scores, (len(paramsToPlot[keysToPlot[0]]), len(paramsToPlot[keysToPlot[1]])))
-    plt.figure(figsize=(int(round(len(paramsToPlot[keysToPlot[1]]) / 1.33)), int(
-        round(len(paramsToPlot[keysToPlot[0]]) / 1.33))))
+    plt.figure(figsize=(int(round(len(paramsToPlot[keysToPlot[1]]) / 1.33)),
+                        int(round(len(paramsToPlot[keysToPlot[0]]) / 1.33))))
+    if not greater_is_better:
+        if cmap.endswith('_r'):
+            cmap = cmap[:-2]
+        else:
+            cmap = cmap+'_r'
     if vrange is not None:
-        plt.imshow(scoreGrid, cmap='jet', vmin=vrange[0], vmax=vrange[1])
+        plt.imshow(scoreGrid, cmap=cmap, vmin=vrange[0], vmax=vrange[1])
     else:
-        plt.imshow(scoreGrid, cmap='jet')
+        plt.imshow(scoreGrid, cmap=cmap)
     plt.xlabel(keysToPlot[1])
     plt.xticks(
         np.arange(len(paramsToPlot[keysToPlot[1]])), paramsToPlot[keysToPlot[1]])
@@ -63,13 +72,17 @@ def plot2DGrid(scores, paramsToPlot, keysToPlot, scoreLabel, vrange):
     plt.show()
 
 
-def plot3DGrid(scores, paramsToPlot, keysToPlot, scoreLabel, vrange):
+def plot3DGrid(scores, paramsToPlot, keysToPlot, scoreLabel, greater_is_better, vrange, cmap):
     """
     Plots a grid of heatmaps of scores, over the paramsToPlot
     :param scores: A list of scores, estimated using parallelizeScore
     :param paramsToPlot: The parameters to plot, chosen automatically by plotScores
     :param scoreLabel: The specified score label (dependent on scoring metric used)
+    :param greater_is_better: Choice between optimizing for greater scores or lesser scores
+        Used to make better scores darker on colormap
+        Default True means greater and False means lesser
     :param vrange: The visible range of the heatmap (range you wish the heatmap to be specified over)
+    :param cmap: The chosen colormap for 2D and 3D plotting. Default is YlOrRd
     """
     vmin = np.min(scores)
     vmax = np.max(scores)
@@ -84,16 +97,23 @@ def plot3DGrid(scores, paramsToPlot, keysToPlot, scoreLabel, vrange):
     nelements = scoreGrid.shape[2]
     nrows = np.floor(nelements ** 0.5).astype(int)
     ncols = np.ceil(1. * nelements / nrows).astype(int)
-    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, sharex='all', sharey='all', figsize=(int(round(len(
-        paramsToPlot[keysToPlot[1]]) * ncols * 1.33)), int(round(len(paramsToPlot[keysToPlot[0]]) * nrows * 1.33))))
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, sharex='all', sharey='all',
+                             figsize=(int(round(len(paramsToPlot[keysToPlot[1]]) * ncols * 1.33)),
+                                      int(round(len(paramsToPlot[keysToPlot[0]]) * nrows * 1.33))))
+
+    if not greater_is_better:
+        if cmap.endswith('_r'):
+            cmap = cmap[:-2]
+        else:
+            cmap = cmap+'_r'
     i = 0
     for ax in axes.flat:
         if vrange is not None:
-            im = ax.imshow(scoreGrid[:, :, i], cmap='jet',
+            im = ax.imshow(scoreGrid[:, :, i], cmap=cmap,
                            vmin=vrange[0], vmax=vrange[1])
         else:
-            im = ax.imshow(scoreGrid[:, :, i],
-                           cmap='jet', vmin=vmin, vmax=vmax)
+            im = ax.imshow(scoreGrid[:, :, i], cmap=cmap,
+                           vmin=vmin, vmax=vmax)
         ax.set_xlabel(keysToPlot[1])
         ax.set_xticks(np.arange(len(paramsToPlot[keysToPlot[1]])))
         ax.set_xticklabels(paramsToPlot[keysToPlot[1]])
@@ -119,7 +139,7 @@ def plot3DGrid(scores, paramsToPlot, keysToPlot, scoreLabel, vrange):
     plt.show()
 
 
-def plotScores(scores, paramGrid, scoreLabel=None, vrange=None):
+def plotScores(scores, paramGrid, scoreLabel=None, greater_is_better=True, vrange=None, cmap='YlOrRd'):
     """
     Makes a plot representing how the scores vary over the parameter grid
         Automatically decides whether to use a simple line plot (varying over one parameter)
@@ -127,9 +147,15 @@ def plotScores(scores, paramGrid, scoreLabel=None, vrange=None):
     :param scores: A list of scores, estimated using scoreModels
     :param paramGrid: The parameter grid specified when fitting the models using fitModels
     :param scoreLabel: The specified label (dependent on scoring metric used), e.g. 'AUC'
+    :param greater_is_better: Choice between optimizing for greater scores or lesser scores
+        Used to make better scores darker on colormap
+        Default True means greater and False means lesser
     :param vrange: The visible range over which to display the scores
+    :param cmap: The chosen colormap for 2D and 3D plotting. Default is YlOrRd.
+        You can invert your chosen colormap by adding '_r' to the end
     :return:
     """
+
     keys = sorted(list(paramGrid)[0].keys())
     uniqParams = dict()
     order = dict()
@@ -150,9 +176,9 @@ def plotScores(scores, paramGrid, scoreLabel=None, vrange=None):
     if numDim > 3:
         print('Too many dimensions to plot.')
     elif numDim == 3:
-        plot3DGrid(scores, uniqParams, keysToPlot, scoreLabel, vrange)
+        plot3DGrid(scores, uniqParams, keysToPlot, scoreLabel, greater_is_better, vrange, cmap)
     elif numDim == 2:
-        plot2DGrid(scores, uniqParams, keysToPlot, scoreLabel, vrange)
+        plot2DGrid(scores, uniqParams, keysToPlot, scoreLabel, greater_is_better, vrange, cmap)
     elif numDim == 1:
         plot1DGrid(scores, uniqParams, scoreLabel, vrange)
     else:
