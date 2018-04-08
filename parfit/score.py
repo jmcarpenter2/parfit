@@ -5,7 +5,7 @@ import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
-__all__ = ["scoreModels", "scoreOne", "getBestModel", "getBestScore"]
+__all__ = ["scoreModels", "getBestModel", "getBestScore"]
 
 
 def scoreOne(model, X, y, metric, predict_proba):

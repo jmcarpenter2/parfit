@@ -9,7 +9,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
 
-__all__ = ["crossvalModels", "crossvalOne"]
+__all__ = ["crossvalModels"]
 
 def crossvalOne(model, X, y, params, nfolds, metric=roc_auc_score, predict_proba=True, n_jobs=-1, verbose=1):
     """

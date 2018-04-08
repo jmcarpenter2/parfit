@@ -6,7 +6,7 @@ import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
-__all__ = ["plot1DGrid", "plot2DGrid", "plot3DGrid", "plotScores"]
+__all__ = ["plotScores"]
 
 
 def plot1DGrid(scores, paramsToPlot, scoreLabel, vrange):
