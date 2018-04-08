@@ -9,7 +9,7 @@ $pip install -U parfit # upgrade to latest version
 
 and then import into your code using:
 ```
-from parfit.parfit import bestFit # Necessary if you wish to use bestFit
+from parfit import bestFit # Necessary if you wish to use bestFit
 
 # Necessary if you wish to run each step sequentially
 from parfit.fit import *
