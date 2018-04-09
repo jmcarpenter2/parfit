@@ -1,5 +1,5 @@
 # parfit
-A package for parallelizing the fit and flexibly scoring of sklearn machine learning models, with optional plotting routines.
+A package for parallelizing the fit and flexibly scoring of sklearn machine learning models, with visualization routines.
 
 Installation:
 ```
