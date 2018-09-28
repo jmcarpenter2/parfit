@@ -2,6 +2,7 @@ from joblib import Parallel, delayed
 from sklearn.metrics import roc_auc_score
 import numpy as np
 import warnings
+
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
@@ -23,7 +24,7 @@ def scoreOne(model, X, y, metric, predict_proba):
         try:
             return metric(y, model.predict_proba(X)[:, 1])
         except:
-            print('This model/metric cannot use predict_proba. Using predict for scoring instead.')
+            print("This model/metric cannot use predict_proba. Using predict for scoring instead.")
             return metric(y, model.predict(X))
     else:
         return metric(y, model.predict(X))
@@ -49,11 +50,9 @@ def scoreModels(models, X, y, metric=roc_auc_score, predict_proba=True, n_jobs=-
         myScores = scoreModels(myModels, X_val, y_val, recall_score)
 
     """
-    return Parallel(n_jobs=n_jobs, verbose=np.ceil(verbose/10))(delayed(scoreOne)(m,
-                                                                      X,
-                                                                      y,
-                                                                      metric,
-                                                                      predict_proba) for m in models)
+    return Parallel(n_jobs=n_jobs, verbose=np.ceil(verbose / 10))(
+        delayed(scoreOne)(m, X, y, metric, predict_proba) for m in models
+    )
 
 
 def getBestModel(models, scores, greater_is_better=True):

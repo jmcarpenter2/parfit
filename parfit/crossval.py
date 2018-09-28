@@ -1,15 +1,18 @@
 from joblib import Parallel, delayed
+from sklearn.base import BaseEstimator
 from sklearn.model_selection import KFold
 from sklearn.metrics import roc_auc_score
 import numpy as np
 from .fit import fitOne
 from .score import scoreOne
 import warnings
+
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
 
 __all__ = ["crossvalModels"]
+
 
 def crossvalOne(model, X, y, params, nfolds, metric=roc_auc_score, predict_proba=True, n_jobs=-1, verbose=1):
     """
@@ -29,16 +32,21 @@ def crossvalOne(model, X, y, params, nfolds, metric=roc_auc_score, predict_proba
     """
     kf = KFold(n_splits=nfolds)
     train_indices, test_indices = zip(*kf.split(X))
-    fitted_models = Parallel(n_jobs=n_jobs, verbose=verbose)(delayed(fitOne)(model,
-                                                                      np.asarray(X)[train_index],
-                                                                      np.asarray(y)[train_index],
-                                                                      params) for train_index in train_indices)
-    scores = Parallel(n_jobs=n_jobs, verbose=0)(delayed(scoreOne)(fitted_model,
-                                                                        np.asarray(X)[test_index],
-                                                                        np.asarray(y)[test_index],
-                                                                        metric,
-                                                                        predict_proba) for fitted_model,test_index
-                                                                        in zip(fitted_models, test_indices))
+    if isinstance(model, BaseEstimator):
+        fitted_models = Parallel(n_jobs=n_jobs, verbose=verbose)(
+            delayed(fitOne)(type(model), np.asarray(X)[train_index], np.asarray(y)[train_index], params)
+            for train_index in train_indices
+        )
+    else:
+        fitted_models = Parallel(n_jobs=n_jobs, verbose=verbose)(
+            delayed(fitOne)(model, np.asarray(X)[train_index], np.asarray(y)[train_index], params)
+            for train_index in train_indices
+        )
+
+    scores = Parallel(n_jobs=n_jobs, verbose=0)(
+        delayed(scoreOne)(fitted_model, np.asarray(X)[test_index], np.asarray(y)[test_index], metric, predict_proba)
+        for fitted_model, test_index in zip(fitted_models, test_indices)
+    )
 
     return np.mean(scores)
 
@@ -60,13 +68,10 @@ def crossvalModels(model, paramGrid, X, y, nfolds=5, metric=roc_auc_score, predi
     :return: Returns the grid of mean of cross-validation scores for the specified parameters,
         and the associated paramGrid
     """
-    return Parallel(n_jobs=n_jobs, verbose=verbose)(delayed(crossvalOne)(model,
-                                                                         X,
-                                                                         y,
-                                                                         params,
-                                                                         nfolds,
-                                                                         metric,
-                                                                         predict_proba,
-                                                                         n_jobs,
-                                                                         np.ceil(verbose/10)) for params in paramGrid), \
-           list(paramGrid)
+    return (
+        Parallel(n_jobs=n_jobs, verbose=verbose)(
+            delayed(crossvalOne)(model, X, y, params, nfolds, metric, predict_proba, n_jobs, np.ceil(verbose / 10))
+            for params in paramGrid
+        ),
+        list(paramGrid),
+    )

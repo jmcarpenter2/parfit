@@ -4,15 +4,31 @@ from .score import scoreModels, getBestScore, getBestModel
 from .plot import plotScores
 from .crossval import crossvalModels
 import warnings
+
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
 __all__ = ["bestFit"]
 
 
-def bestFit(model, paramGrid, X_train, y_train, X_val=None, y_val=None, nfolds=5,
-            metric=roc_auc_score, greater_is_better=True, predict_proba=True,
-            showPlot=True, scoreLabel=None, vrange=None, cmap='YlOrRd', n_jobs=-1, verbose=10):
+def bestFit(
+    model,
+    paramGrid,
+    X_train,
+    y_train,
+    X_val=None,
+    y_val=None,
+    nfolds=5,
+    metric=roc_auc_score,
+    greater_is_better=True,
+    predict_proba=True,
+    showPlot=True,
+    scoreLabel=None,
+    vrange=None,
+    cmap="YlOrRd",
+    n_jobs=-1,
+    verbose=10,
+):
     """
     Parallelizes choosing the best fitting model on the validation set, doing a grid search over the parameter space.
         Models are scored using specified metric, and user must determine whether the best score is the 'max' or 'min' of scores.
@@ -39,14 +55,15 @@ def bestFit(model, paramGrid, X_train, y_train, X_val=None, y_val=None, nfolds=5
     :return: Returns a tuple including the best scoring model, the score of the best model, all models, and all scores
     """
     if (X_val is None) or (y_val is None):
-        print('-------------CROSS-VALIDATING MODELS-------------')
-        scores, models = crossvalModels(model, paramGrid, X_train, y_train, nfolds, metric, predict_proba, n_jobs, verbose)
+        print("-------------CROSS-VALIDATING MODELS-------------")
+        scores, models = crossvalModels(
+            model, paramGrid, X_train, y_train, nfolds, metric, predict_proba, n_jobs, verbose
+        )
     else:
-        print('-------------FITTING MODELS-------------')
+        print("-------------FITTING MODELS-------------")
         models = fitModels(model, paramGrid, X_train, y_train, n_jobs, verbose)
-        print('-------------SCORING MODELS-------------')
-        scores = scoreModels(models, X_val, y_val, metric,
-                             predict_proba, n_jobs, verbose)
+        print("-------------SCORING MODELS-------------")
+        scores = scoreModels(models, X_val, y_val, metric, predict_proba, n_jobs, verbose)
     if showPlot:
         plotScores(scores, paramGrid, scoreLabel, greater_is_better, vrange, cmap)
 

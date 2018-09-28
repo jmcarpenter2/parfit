@@ -7,6 +7,8 @@ $pip install parfit # first time installation
 $pip install -U parfit # upgrade to latest version
 ``` 
 
+CURRENT VERSION == 0.200
+
 and then import into your code using:
 ```
 from parfit import bestFit # Necessary if you wish to use bestFit

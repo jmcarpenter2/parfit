@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
     name='parfit',
     packages=['parfit'],  # this must be the same as the name above
-    version='0.191',
+    version='0.200',
     description='A package for parallelizing the fit and flexibly scoring of sklearn machine learning models, with optional plotting routines.',
     author='Jason Carpenter',
     author_email='jmcarpenter2@dons.usfca.edu',

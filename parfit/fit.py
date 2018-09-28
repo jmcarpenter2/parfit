@@ -1,5 +1,7 @@
 from joblib import Parallel, delayed
+from sklearn.base import BaseEstimator
 import warnings
+
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
@@ -15,7 +17,10 @@ def fitOne(model, X, y, params):
     :param params: The parameters passed through to the model from the parameter grid
     :return: Returns the fitted model
     """
-    model.set_params(**params)
+    if isinstance(model, BaseEstimator):
+        model.set_params(**params)
+    else:
+        model = model(**params)
     return model.fit(X, y)
 
 
@@ -43,7 +48,4 @@ def fitModels(model, paramGrid, X, y, n_jobs=-1, verbose=10):
         paramGrid = ParameterGrid(grid)
         myModels = fitModels(model, paramGrid, X_train, y_train)
     """
-    return Parallel(n_jobs=n_jobs, verbose=verbose)(delayed(fitOne)(model,
-                                                                    X,
-                                                                    y,
-                                                                    params) for params in paramGrid)
+    return Parallel(n_jobs=n_jobs, verbose=verbose)(delayed(fitOne)(model, X, y, params) for params in paramGrid)

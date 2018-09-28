@@ -19,13 +19,13 @@ def plot1DGrid(scores, paramsToPlot, scoreLabel, vrange):
     """
     key = list(paramsToPlot.keys())
     plt.figure(figsize=(int(round(len(paramsToPlot[key[0]]) / 1.33)), 6))
-    plt.plot(np.linspace(0, len(paramsToPlot[key[0]]), len(scores)), scores, '-or')
+    plt.plot(np.linspace(0, len(paramsToPlot[key[0]]), len(scores)), scores, "-or")
     plt.xlabel(key[0])
     plt.xticks(np.linspace(0, len(paramsToPlot[key[0]]), len(scores)), paramsToPlot[key[0]])
     if scoreLabel is not None:
         plt.ylabel(scoreLabel)
     else:
-        plt.ylabel('Score')
+        plt.ylabel("Score")
     if vrange is not None:
         plt.ylim(vrange[0], vrange[1])
     plt.box(on=False)
@@ -44,29 +44,30 @@ def plot2DGrid(scores, paramsToPlot, keysToPlot, scoreLabel, greater_is_better, 
     :param vrange: The visible range of the heatmap (range you wish the heatmap to be specified over)
     :param cmap: The chosen colormap for 2D and 3D plotting. Default is YlOrRd
     """
-    scoreGrid = np.reshape(
-        scores, (len(paramsToPlot[keysToPlot[0]]), len(paramsToPlot[keysToPlot[1]])))
-    plt.figure(figsize=(int(round(len(paramsToPlot[keysToPlot[1]]) / 1.33)),
-                        int(round(len(paramsToPlot[keysToPlot[0]]) / 1.33))))
+    scoreGrid = np.reshape(scores, (len(paramsToPlot[keysToPlot[0]]), len(paramsToPlot[keysToPlot[1]])))
+    plt.figure(
+        figsize=(
+            int(round(len(paramsToPlot[keysToPlot[1]]) / 1.33)),
+            int(round(len(paramsToPlot[keysToPlot[0]]) / 1.33)),
+        )
+    )
     if not greater_is_better:
-        if cmap.endswith('_r'):
+        if cmap.endswith("_r"):
             cmap = cmap[:-2]
         else:
-            cmap = cmap+'_r'
+            cmap = cmap + "_r"
     if vrange is not None:
         plt.imshow(scoreGrid, cmap=cmap, vmin=vrange[0], vmax=vrange[1])
     else:
         plt.imshow(scoreGrid, cmap=cmap)
     plt.xlabel(keysToPlot[1])
-    plt.xticks(
-        np.arange(len(paramsToPlot[keysToPlot[1]])), paramsToPlot[keysToPlot[1]])
+    plt.xticks(np.arange(len(paramsToPlot[keysToPlot[1]])), paramsToPlot[keysToPlot[1]])
     plt.ylabel(keysToPlot[0])
-    plt.yticks(
-        np.arange(len(paramsToPlot[keysToPlot[0]])), paramsToPlot[keysToPlot[0]])
+    plt.yticks(np.arange(len(paramsToPlot[keysToPlot[0]])), paramsToPlot[keysToPlot[0]])
     if scoreLabel is not None:
         plt.title(scoreLabel)
     else:
-        plt.title('Score')
+        plt.title("Score")
     plt.colorbar()
     plt.box(on=False)
     plt.show()
@@ -86,42 +87,47 @@ def plot3DGrid(scores, paramsToPlot, keysToPlot, scoreLabel, greater_is_better, 
     """
     vmin = np.min(scores)
     vmax = np.max(scores)
-    scoreGrid = np.reshape(scores, (len(paramsToPlot[keysToPlot[0]]), len(
-        paramsToPlot[keysToPlot[1]]), len(paramsToPlot[keysToPlot[2]])))
-    
+    scoreGrid = np.reshape(
+        scores, (len(paramsToPlot[keysToPlot[0]]), len(paramsToPlot[keysToPlot[1]]), len(paramsToPlot[keysToPlot[2]]))
+    )
+
     smallest_dim = np.argmin(scoreGrid.shape)
     if smallest_dim != 2:
         scoreGrid = np.swapaxes(scoreGrid, smallest_dim, 2)
         keysToPlot[smallest_dim], keysToPlot[2] = keysToPlot[2], keysToPlot[smallest_dim]
-    
+
     nelements = scoreGrid.shape[2]
     nrows = np.floor(nelements ** 0.5).astype(int)
-    ncols = np.ceil(1. * nelements / nrows).astype(int)
-    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, sharex='all', sharey='all',
-                             figsize=(int(round(len(paramsToPlot[keysToPlot[1]]) * ncols * 1.33)),
-                                      int(round(len(paramsToPlot[keysToPlot[0]]) * nrows * 1.33))))
+    ncols = np.ceil(1.0 * nelements / nrows).astype(int)
+    fig, axes = plt.subplots(
+        nrows=nrows,
+        ncols=ncols,
+        sharex="all",
+        sharey="all",
+        figsize=(
+            int(round(len(paramsToPlot[keysToPlot[1]]) * ncols * 1.33)),
+            int(round(len(paramsToPlot[keysToPlot[0]]) * nrows * 1.33)),
+        ),
+    )
 
     if not greater_is_better:
-        if cmap.endswith('_r'):
+        if cmap.endswith("_r"):
             cmap = cmap[:-2]
         else:
-            cmap = cmap+'_r'
+            cmap = cmap + "_r"
     i = 0
     for ax in axes.flat:
         if vrange is not None:
-            im = ax.imshow(scoreGrid[:, :, i], cmap=cmap,
-                           vmin=vrange[0], vmax=vrange[1])
+            im = ax.imshow(scoreGrid[:, :, i], cmap=cmap, vmin=vrange[0], vmax=vrange[1])
         else:
-            im = ax.imshow(scoreGrid[:, :, i], cmap=cmap,
-                           vmin=vmin, vmax=vmax)
+            im = ax.imshow(scoreGrid[:, :, i], cmap=cmap, vmin=vmin, vmax=vmax)
         ax.set_xlabel(keysToPlot[1])
         ax.set_xticks(np.arange(len(paramsToPlot[keysToPlot[1]])))
         ax.set_xticklabels(paramsToPlot[keysToPlot[1]])
         ax.set_ylabel(keysToPlot[0])
         ax.set_yticks(np.arange(len(paramsToPlot[keysToPlot[0]])))
         ax.set_yticklabels(paramsToPlot[keysToPlot[0]])
-        ax.set_title(keysToPlot[2] + ' = ' +
-                     str(paramsToPlot[keysToPlot[2]][i]))
+        ax.set_title(keysToPlot[2] + " = " + str(paramsToPlot[keysToPlot[2]][i]))
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)
         ax.spines["bottom"].set_visible(False)
@@ -132,14 +138,14 @@ def plot3DGrid(scores, paramsToPlot, keysToPlot, scoreLabel, greater_is_better, 
     if scoreLabel is not None:
         fig.suptitle(scoreLabel, fontsize=18)
     else:
-        fig.suptitle('Score', fontsize=18)
+        fig.suptitle("Score", fontsize=18)
     fig.subplots_adjust(right=0.8)
-    cbar = cb.make_axes(ax, location='right', fraction=0.03)
+    cbar = cb.make_axes(ax, location="right", fraction=0.03)
     fig.colorbar(im, cax=cbar[0])
     plt.show()
 
 
-def plotScores(scores, paramGrid, scoreLabel=None, greater_is_better=True, vrange=None, cmap='YlOrRd'):
+def plotScores(scores, paramGrid, scoreLabel=None, greater_is_better=True, vrange=None, cmap="YlOrRd"):
     """
     Makes a plot representing how the scores vary over the parameter grid
         Automatically decides whether to use a simple line plot (varying over one parameter)
@@ -174,7 +180,7 @@ def plotScores(scores, paramGrid, scoreLabel=None, greater_is_better=True, vrang
 
     numDim = len(keysToPlot)
     if numDim > 3:
-        print('Too many dimensions to plot.')
+        print("Too many dimensions to plot.")
     elif numDim == 3:
         plot3DGrid(scores, uniqParams, keysToPlot, scoreLabel, greater_is_better, vrange, cmap)
     elif numDim == 2:
@@ -182,4 +188,4 @@ def plotScores(scores, paramGrid, scoreLabel=None, greater_is_better=True, vrang
     elif numDim == 1:
         plot1DGrid(scores, uniqParams, scoreLabel, vrange)
     else:
-        print('No parameters that vary in the grid')
+        print("No parameters that vary in the grid")

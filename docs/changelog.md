@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 0.20
+
+### MAJOR BUG FIX:
+Due to shared memory across parallel jobs, cross-validation performance was consistently inflated. The latest bug fix resolves this issue by creating a new model for each fitted model in the cross-validation schema.
+
 ## Version 0.19
 
 ### Aesthetic improvement:
