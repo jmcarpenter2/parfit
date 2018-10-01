@@ -1,6 +1,6 @@
 from joblib import Parallel, delayed
 from sklearn.base import BaseEstimator
-from sklearn.model_selection import KFold
+from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import roc_auc_score
 import numpy as np
 from .fit import fitOne
@@ -30,7 +30,11 @@ def crossvalOne(model, X, y, params, nfolds, metric=roc_auc_score, predict_proba
         Default is 10 (send an update at the completion of each job)
     :return: Returns the mean of the cross-validation scores
     """
-    kf = KFold(n_splits=nfolds)
+    if 'random_state' in params.keys():
+        random_state = params['random_state']
+    else:
+        random_state = None
+    kf = StratifiedKFold(n_splits=nfolds, random_state=random_state)
     train_indices, test_indices = zip(*kf.split(X))
     if isinstance(model, BaseEstimator):
         fitted_models = Parallel(n_jobs=n_jobs, verbose=verbose)(
