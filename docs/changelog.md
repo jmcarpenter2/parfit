@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.21
+Switched from using KFold to StratifiedKFold for cross-validation because we want to generally pay attention to class imbalances.
+
 ## Version 0.20
 
 ### MAJOR BUG FIX:
