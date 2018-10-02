@@ -34,7 +34,7 @@ def crossvalOne(model, X, y, params, nfolds, metric=roc_auc_score, predict_proba
         random_state = params['random_state']
     else:
         random_state = None
-    kf = StratifiedKFold(n_splits=nfolds, random_state=random_state)
+    kf = StratifiedKFold(n_splits=nfolds, shuffle=True, random_state=random_state)
     train_indices, test_indices = zip(*kf.split(X, y))
     if isinstance(model, BaseEstimator):
         fitted_models = Parallel(n_jobs=n_jobs, verbose=verbose)(
