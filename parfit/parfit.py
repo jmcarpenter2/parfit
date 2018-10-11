@@ -38,7 +38,8 @@ def bestFit(
     :param y_train: The dependent variable data used to fit the models
     :param X_val: The independent variable data used to score the models
     :param y_val: The dependent variable data used to score the models
-    :param nfolds: Cross-validation number of folds, used if a validation set is not specified
+    :param nfolds: Cross-validation number of folds, used if a validation set is not specified.
+        Set nfolds=X.shape[0] for LeaveOneOut cross-validation.
     :param metric: The metric used to score the models, e.g. imported from sklearn.metrics
     :param greater_is_better: Choice between optimizing for greater scores or lesser scores
         Default True means greater and False means lesser

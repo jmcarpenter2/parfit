@@ -1,10 +1,10 @@
 from joblib import Parallel, delayed
 from sklearn.base import BaseEstimator
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold, LeaveOneOut
 from sklearn.metrics import roc_auc_score
 import numpy as np
 from .fit import fitOne
-from .score import scoreOne
+from .score import scoreOne, scoreLeaveOneOut
 import warnings
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -34,8 +34,13 @@ def crossvalOne(model, X, y, params, nfolds, metric=roc_auc_score, predict_proba
         random_state = params['random_state']
     else:
         random_state = None
-    kf = StratifiedKFold(n_splits=nfolds, shuffle=True, random_state=random_state)
-    train_indices, test_indices = zip(*kf.split(X, y))
+
+    if nfolds >= X.shape[0]:
+        cv = LeaveOneOut()
+    else:
+        cv = StratifiedKFold(n_splits=nfolds, shuffle=True, random_state=random_state)
+
+    train_indices, test_indices = zip(*cv.split(X, y))
     if isinstance(model, BaseEstimator):
         fitted_models = Parallel(n_jobs=n_jobs, verbose=verbose)(
             delayed(fitOne)(type(model), np.asarray(X)[train_index], np.asarray(y)[train_index], params)
@@ -46,13 +51,15 @@ def crossvalOne(model, X, y, params, nfolds, metric=roc_auc_score, predict_proba
             delayed(fitOne)(model, np.asarray(X)[train_index], np.asarray(y)[train_index], params)
             for train_index in train_indices
         )
-
-    scores = Parallel(n_jobs=n_jobs, verbose=0)(
-        delayed(scoreOne)(fitted_model, np.asarray(X)[test_index], np.asarray(y)[test_index], metric, predict_proba)
-        for fitted_model, test_index in zip(fitted_models, test_indices)
-    )
-
-    return np.mean(scores)
+    if nfolds >= X.shape[0]:
+        score = scoreLeaveOneOut(fitted_models, test_indices, X, y, metric, predict_proba)
+        return score
+    else:
+        scores = Parallel(n_jobs=n_jobs, verbose=0)(
+            delayed(scoreOne)(fitted_model, np.asarray(X)[test_index], np.asarray(y)[test_index], metric, predict_proba)
+            for fitted_model, test_index in zip(fitted_models, test_indices)
+        )
+        return np.mean(scores)
 
 
 def crossvalModels(model, paramGrid, X, y, nfolds=5, metric=roc_auc_score, predict_proba=True, n_jobs=-1, verbose=10):

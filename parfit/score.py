@@ -8,6 +8,20 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 __all__ = ["scoreModels", "getBestModel", "getBestScore"]
 
+def scoreLeaveOneOut(fitted_models, test_indices, X, y, metric, predict_proba):
+    preds = np.zeros(X.shape[0])
+    for fitted_model, test_index in zip(fitted_models, test_indices):
+        if predict_proba:
+            try:
+                preds[test_index] = fitted_model.predict_proba(np.asarray(X)[test_index])[:, 1]
+            except:
+                print("This model/metric cannot use predict_proba. Using predict for scoring instead.")
+                preds[test_index] = fitted_model.predict(np.asarray(X)[test_index])
+        else:
+            preds[test_index] = fitted_model.predict(np.asarray(X)[test_index])
+
+    return metric(y, preds)
+
 
 def scoreOne(model, X, y, metric, predict_proba):
     """

@@ -25,7 +25,7 @@ Models are scored using specified metric. Optional visualization of the scores.
 
 `y_val`: The dependent variable data used to score the models (default None)
 
-`nfolds`: The cross-validation number of folds, used if a validation set is not specified
+`nfolds`: The cross-validation number of folds, used if a validation set is not specified. Set nfolds=X.shape[0] for LeaveOneOut cross-validation.
 
 `metric`: The metric used to score the models, e.g. imported from sklearn.metrics
 
@@ -73,7 +73,7 @@ Parallelizes fitting and scoring all cross-validation models using all combinati
 
 `y`: The response variable data
 
-`nfolds`: The number of folds you wish to use for cross-validation
+`nfolds`: The number of folds you wish to use for cross-validation. Set nfolds=X.shape[0] for LeaveOneOut cross-validation.
 
 `metric`: The metric you wish to use to score the predictions using Defaults to roc_auc_score
 

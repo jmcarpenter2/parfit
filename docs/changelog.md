@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.22
+When nfolds >= the number of obesrvations, automatically resorts to LeaveOneOut cross-validation.
+
 ## Version 0.21
 Switched from using KFold to StratifiedKFold for cross-validation because we want to generally pay attention to class imbalances.
 
