@@ -3,6 +3,7 @@ from sklearn.base import BaseEstimator
 from sklearn.model_selection import StratifiedKFold, LeaveOneOut
 from sklearn.metrics import roc_auc_score
 import numpy as np
+import scipy.sparse as sp
 from .fit import fitOne
 from .score import scoreOne, scoreLeaveOneOut
 import warnings
@@ -41,14 +42,20 @@ def crossvalOne(model, X, y, params, nfolds, metric=roc_auc_score, predict_proba
         cv = StratifiedKFold(n_splits=nfolds, shuffle=True, random_state=random_state)
 
     train_indices, test_indices = zip(*cv.split(X, y))
+    # asarray only when X, y are not sparse
+    if not sp.issparse(X):
+    	X = np.asarray(X)
+    if not sp.issparse(y):
+    	y = np.asarray(y)
+
     if isinstance(model, BaseEstimator):
         fitted_models = Parallel(n_jobs=n_jobs, verbose=verbose)(
-            delayed(fitOne)(type(model), np.asarray(X)[train_index], np.asarray(y)[train_index], params)
+            delayed(fitOne)(type(model), X[train_index], y[train_index], params)
             for train_index in train_indices
         )
     else:
         fitted_models = Parallel(n_jobs=n_jobs, verbose=verbose)(
-            delayed(fitOne)(model, np.asarray(X)[train_index], np.asarray(y)[train_index], params)
+            delayed(fitOne)(model, X[train_index], y[train_index], params)
             for train_index in train_indices
         )
     if nfolds >= X.shape[0]:
@@ -56,7 +63,7 @@ def crossvalOne(model, X, y, params, nfolds, metric=roc_auc_score, predict_proba
         return score
     else:
         scores = Parallel(n_jobs=n_jobs, verbose=0)(
-            delayed(scoreOne)(fitted_model, np.asarray(X)[test_index], np.asarray(y)[test_index], metric, predict_proba)
+            delayed(scoreOne)(fitted_model, X[test_index], y[test_index], metric, predict_proba)
             for fitted_model, test_index in zip(fitted_models, test_indices)
         )
         return np.mean(scores)
