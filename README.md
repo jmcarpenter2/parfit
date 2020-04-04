@@ -1,6 +1,25 @@
 # parfit
 A package for parallelizing the fit and flexibly scoring of sklearn machine learning models, with visualization routines.
 
+# This python package is NO LONGER MAINTAINED.
+
+## Alternatives
+There are several fantastic alternatives that serve the same purpose as `parfit`, but do it even better.
+
+Below I list a few libraries that are very effective at solving the particular problem that parfit originally aimed to solve.
+
+### Hyper-parameter optimization
+* [Tune](https://ray.readthedocs.io/en/latest/tune.html)
+* [Scikit-Optimize](https://scikit-optimize.github.io/stable/)
+* [Scikit-learn](https://scikit-learn.org/stable/modules/grid_search.html)
+
+### Visualization of hyper-parameter optimizations
+* [Tune + Tensorboard](https://ray.readthedocs.io/en/latest/tune-usage.html#tensorboard)
+* [Scikit-Optimize plotting module](https://scikit-optimize.github.io/stable/modules/classes.html#module-skopt.plots)
+* [Examples using Scikit-learn + seaborn](https://towardsdatascience.com/using-3d-visualizations-to-tune-hyperparameters-of-ml-models-with-python-ba2885eab2e9)
+
+# Deprecated
+
 CURRENT VERSION == 0.220
 
 Installation:
