@@ -13,7 +13,7 @@ setup(
     install_requires=[
         'joblib',
         'matplotlib',
-        'sklearn',
+        'scikit-learn',
         'numpy'
     ],
     classifiers=[],
